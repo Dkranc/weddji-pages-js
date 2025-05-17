@@ -1,4 +1,6 @@
 // file path = <script src="https://cdn.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/edit/main.js"></script>
+//to update cdn visit : https://purge.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/edit/main.js
+
 
 // set required form fields
 document.querySelectorAll("input[data-required]").forEach((input) => {
