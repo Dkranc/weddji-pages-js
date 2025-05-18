@@ -1,7 +1,6 @@
 // file path = <script src="https://cdn.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/edit/main.js"></script>
 //to update cdn visit : https://purge.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/edit/main.js
 
-
 // set required form fields
 document.querySelectorAll("input[data-required]").forEach((input) => {
   if (input.getAttribute("data-required") === "true") {
@@ -70,8 +69,6 @@ supaClient.functions
     if (!values.length) return;
 
     for (const [key, value] of values) {
-      console.log({ key, value });
-
       const elements = document.getElementsByName(key);
       if (
         elements &&
@@ -432,6 +429,8 @@ document.addEventListener("DOMContentLoaded", initAutocomplete);
 //<!-- Show upload image success icon -->
 
 document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
+    console.log(ctx);;
+
   const successIcon = ctx
     .closest(".form_field-wrapper")
     .querySelector(".image-upload-validation");
