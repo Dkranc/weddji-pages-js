@@ -70,6 +70,7 @@ supaClient.functions
 
     for (const [key, value] of values) {
       const elements = document.getElementsByName(key);
+      console.log(key, elements);
       if (
         elements &&
         key !== "slug" &&
@@ -395,7 +396,6 @@ function initAutocomplete() {
   // Handle event when user selects a place from dropdown
   autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
-    //console.log(place);
     isValidPlace = !!place.geometry;
 
     if (!isValidPlace) {
@@ -429,31 +429,19 @@ document.addEventListener("DOMContentLoaded", initAutocomplete);
 //<!-- Show upload image success icon -->
 
 document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
-    console.log(ctx);;
-
   const successIcon = ctx
     .closest(".form_field-wrapper")
     .querySelector(".image-upload-validation");
   ctx.addEventListener("change", (e) => {
-    console.log(e.detail);
     if (e.detail.isSuccess && successIcon) {
       successIcon.style.display = "inline-flex";
+      successIcon.querySelector("img").src = e.detail.successEntries[0].cdnUrl;
     } else {
       successIcon.style.display = "none";
     }
   });
 });
 
-/*funcion addImageElement(elem,url) => {
-     // Create the new image element
-    const img = document.createElement('img');
-    img.src = url,// 'https://example.com/image.png';
-    img.alt = 'chosen image';
-    img.style.width = '40px'; // Optional styling
-
-    // Insert the image right after the existing element
-    elem.insertAdjacentElement('afterend', img);
-}*/
 
 //<!--close popups on outside click-->
 
@@ -533,7 +521,6 @@ async function getPaymentLink(price) {
     return;
   }
 
-  console.log(data);
 
   document.getElementById("payment-btn").href = data.data;
   document.getElementById("payment-btn").text = "לתשלום";
