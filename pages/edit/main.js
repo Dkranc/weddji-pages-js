@@ -71,7 +71,7 @@ supaClient.functions
     for (const [key, value] of values) {
       const elements = document.getElementsByName(key);
       if(key.includes('image')){
-        setImageFields(key,value);
+        setImageFields(key,value?.url);
       }
       if (
         elements &&
