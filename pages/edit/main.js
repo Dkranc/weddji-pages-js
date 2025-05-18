@@ -306,8 +306,8 @@ function scaleIframes() {
     mobileContainers.forEach((container) => {
       const iframe = container.querySelector(".mobile-iframe");
       const scale = container.offsetWidth / 393;
-      iframe?.style.transform = `scale(${scale})`;
-      container?.style.height = "auto"; // Let the container height define the iframe
+      iframe.style.transform = `scale(${scale})`;
+      container.style.height = "auto"; // Let the container height define the iframe
     });
   } catch (err) {
     console.error(err);
