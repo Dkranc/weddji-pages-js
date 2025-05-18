@@ -90,7 +90,6 @@ supaClient.functions
           el.textContent = baseUrl + value;
         }
       } else if (key === "custom-image-24") {
-        console.log(value.url);
         updateWhatsAppImage(value.url);
       } else if (key === "wedding-date-en") {
         const date = extractDateIfValid(value);
@@ -163,7 +162,6 @@ async function saveAndRefreash(e) {
       templateData[key] = value;
     }
   }
-  console.log(templateData);
   $app.components.page_data.store.weddingForm.saveAndRefreshBtnTxt =
     "ההזמנה מתעדכנת";
   const { data, error } = await supaClient.functions.invoke(
@@ -438,6 +436,7 @@ document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
     .closest(".form_field-wrapper")
     .querySelector(".image-upload-validation");
   ctx.addEventListener("change", (e) => {
+    console.log(e.detail);
     if (e.detail.isSuccess && successIcon) {
       successIcon.style.display = "inline-flex";
     } else {
