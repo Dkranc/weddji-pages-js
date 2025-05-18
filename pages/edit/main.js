@@ -70,7 +70,9 @@ supaClient.functions
 
     for (const [key, value] of values) {
       const elements = document.getElementsByName(key);
-      console.log(key, elements);
+      if(key.includes('image')){
+        setImageFields(key,value);
+      }
       if (
         elements &&
         key !== "slug" &&
@@ -127,6 +129,30 @@ function extractDateIfValid(input) {
   }
 
   return; // Not a valid ISO datetime string
+}
+
+function setImageFields(key,imageUrl) {
+  const config = document.querySelectorAll(
+    `uc-upload-ctx-provider[ctx-name="${key}"]`
+  );
+
+  // Find the uc-config by ctx-name
+
+  if (config) {
+    // Find the closest .upload-validation ancestor
+    const validationEl = config
+      .closest(".form_field-wrapper")
+      .querySelector(".image-upload-validation");
+
+    if (validationEl) {
+      validationEl.style.display = "inline-flex";
+      validationEl.querySelector("img").src = imageUrl;
+    } else {
+      console.log("No .upload-validation ancestor found");
+    }
+  } else {
+    console.log("uc-config element not found");
+  }
 }
 
 function updateWhatsAppImage(imageUrl) {
@@ -442,7 +468,6 @@ document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
   });
 });
 
-
 //<!--close popups on outside click-->
 
 //<!--open main dropdown on load-->
@@ -520,7 +545,6 @@ async function getPaymentLink(price) {
     console.error(error);
     return;
   }
-
 
   document.getElementById("payment-btn").href = data.data;
   document.getElementById("payment-btn").text = "לתשלום";
