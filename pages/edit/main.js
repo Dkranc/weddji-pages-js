@@ -455,6 +455,7 @@ document.addEventListener("DOMContentLoaded", initAutocomplete);
 //<!-- Show upload image success icon -->
 
 document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
+    console.log(ctx);
   const successIcon = ctx
     .closest(".form_field-wrapper")
     .querySelector(".image-upload-validation");
