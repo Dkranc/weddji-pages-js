@@ -454,50 +454,20 @@ document.addEventListener("DOMContentLoaded", initAutocomplete);
 
 //<!-- Show upload image success icon -->
 
-// document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
-//     console.log(ctx);
-//   const successIcon = ctx
-//     .closest(".form_field-wrapper")
-//     .querySelector(".image-upload-validation");
-//   ctx.addEventListener("change", (e) => {
-//     if (e.detail.isSuccess && successIcon) {
-//       successIcon.style.display = "inline-flex";
-//       successIcon.querySelector("img").src = e.detail.successEntries[0].cdnUrl;
-//     } else {
-//       successIcon.style.display = "none";
-//     }
-//   });
-// });
-const observer = new MutationObserver(() => {
-    const ctxs = document.querySelectorAll("uc-upload-ctx-provider");
-  
-    if (ctxs.length > 0) {
-      observer.disconnect(); // stop observing once found
-  
-      ctxs.forEach((ctx) => {
-        console.log(ctx);
-        const successIcon = ctx
-          .closest(".form_field-wrapper")
-          ?.querySelector(".image-upload-validation");
-  
-        ctx.addEventListener("change", (e) => {
-          if (e.detail.isSuccess && successIcon) {
-            successIcon.style.display = "inline-flex";
-            successIcon.querySelector("img").src =
-              e.detail.successEntries[0].cdnUrl;
-          } else if (successIcon) {
-            successIcon.style.display = "none";
-          }
-        });
-      });
+document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
+  console.log(ctx);
+  const successIcon = ctx
+    .closest(".form_field-wrapper")
+    .querySelector(".image-upload-validation");
+  ctx.addEventListener("change", (e) => {
+    if (e.detail.isSuccess && successIcon) {
+      successIcon.style.display = "inline-flex";
+      successIcon.querySelector("img").src = e.detail.successEntries[0].cdnUrl;
+    } else {
+      successIcon.style.display = "none";
     }
   });
-  
-  // Observe the entire document for added nodes
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
+});
 
 //<!--close popups on outside click-->
 
