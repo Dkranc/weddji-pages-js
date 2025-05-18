@@ -140,7 +140,7 @@ function setImageFields(key,imageUrl) {
 
   if (config) {
     // Find the closest .upload-validation ancestor
-    const validationEl = config
+    const validationEl = config[0]
       .closest(".form_field-wrapper")
       .querySelector(".image-upload-validation");
 
