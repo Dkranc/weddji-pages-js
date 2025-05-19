@@ -453,21 +453,24 @@ document.addEventListener("DOMContentLoaded", initAutocomplete);
 //<!-- END OF Google Places Autocomplete -->
 
 //<!-- Show upload image success icon -->
+function showUploadImageSuccessIcon() {
+  document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
+    console.log(ctx);
+    const successIcon = ctx
+      .closest(".form_field-wrapper")
+      .querySelector(".image-upload-validation");
+    ctx.addEventListener("change", (e) => {
+      if (e.detail.isSuccess && successIcon) {
+        successIcon.style.display = "inline-flex";
+        successIcon.querySelector("img").src = e.detail.successEntries[0].cdnUrl;
+      } else {
+        successIcon.style.display = "none";
+      }
+    });
+  });  
+}
+document.addEventListener("DOMContentLoaded", showUploadImageSuccessIcon);
 
-document.querySelectorAll("uc-upload-ctx-provider").forEach((ctx) => {
-  console.log(ctx);
-  const successIcon = ctx
-    .closest(".form_field-wrapper")
-    .querySelector(".image-upload-validation");
-  ctx.addEventListener("change", (e) => {
-    if (e.detail.isSuccess && successIcon) {
-      successIcon.style.display = "inline-flex";
-      successIcon.querySelector("img").src = e.detail.successEntries[0].cdnUrl;
-    } else {
-      successIcon.style.display = "none";
-    }
-  });
-});
 
 //<!--close popups on outside click-->
 
