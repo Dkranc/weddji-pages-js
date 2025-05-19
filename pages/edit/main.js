@@ -51,7 +51,6 @@ function showUploadImageSuccessIcon() {
   const uploadCtxProviders = document.querySelectorAll("uc-upload-ctx-provider");
   console.log('im here',uploadCtxProviders);
   uploadCtxProviders.forEach((ctx) => {
-    console.log(ctx);
     const successIcon = ctx
       .closest(".form_field-wrapper")
       .querySelector(".image-upload-validation");
@@ -59,6 +58,7 @@ function showUploadImageSuccessIcon() {
       if (e.detail.isSuccess && successIcon) {
         successIcon.style.display = "inline-flex";
         successIcon.querySelector("img").src = e.detail.successEntries[0].cdnUrl;
+        successIcon.style.justifyContent = "space-between";
       } else {
         successIcon.style.display = "none";
       }
@@ -168,6 +168,7 @@ function setImageFields(key,imageUrl) {
     if (validationEl) {
       validationEl.style.display = "inline-flex";
       validationEl.querySelector("img").src = imageUrl;
+      successIcon.style.justifyContent = "space-between";
     } else {
       console.log("No .upload-validation ancestor found");
     }
