@@ -168,7 +168,7 @@ function setImageFields(key,imageUrl) {
     if (validationEl) {
       validationEl.style.display = "inline-flex";
       validationEl.querySelector("img").src = imageUrl;
-      successIcon.style.justifyContent = "space-between";
+      validationEl.style.justifyContent = "space-between";
     } else {
       console.log("No .upload-validation ancestor found");
     }
