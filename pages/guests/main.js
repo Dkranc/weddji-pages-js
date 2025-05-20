@@ -249,6 +249,7 @@ function fadeOut(element, duration = 500) {
 //<!--End of Export logic-->
 
 //<!-- sidebars-->
+const fadeDuration = 300; // in ms
 function showSidebar(sidebar) {
     setTimeout(()=>{
     sidebar.style.display = 'flex';
@@ -274,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeExportBtn = document.getElementById('close-export-btn');
   const closeImportBtn = document.getElementById('close-import-btn');
 
-  const fadeDuration = 300; // in ms
 
  
 
