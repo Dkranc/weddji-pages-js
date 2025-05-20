@@ -47,6 +47,7 @@
     $app.components.page_data.store.showLoading = false;
     if (data && data.length > 0) {
       $app.components.page_data.store.guests = data;
+      addGuestItemListeners();
     }
   });
   
@@ -150,6 +151,7 @@ function fadeOut(element, duration = 500) {
 
         //update state
         $app.components.page_data.store.guests.push(data);
+        addGuestItemListeners();
          supaClient.functions.invoke('get-rsvp-summary', { method: 'GET' }).then(({ data, error }) => {
          data && Object.assign($app.components.page_data.store.guestsData, data);
         });
@@ -342,3 +344,26 @@ async function handleSelectTemplateClick(event) {
 
 addOnClickToElementsWithClass('price-button', handleSelectTemplateClick);
 */
+
+// Add RSVP form preloading and guest item click logic
+function preloadRsvpForm(guest) {
+  const store = $app.components.page_data.store.rsvpForm;
+  store.fields.firstName = guest.firstName || '';
+  store.fields.lastName = guest.lastName || '';
+  store.fields.phoneNumber = guest.phoneNumber || '';
+  store.fields.guestCount = guest.guestCount ? String(guest.guestCount) : '1';
+  store.fields.status = guest.status || '';
+}
+
+function addGuestItemListeners() {
+  setTimeout(() => {
+    const guestItems = document.querySelectorAll('.stacked-list1_item');
+    guestItems.forEach((item, idx) => {
+      item.onclick = () => {
+        const guest = $app.components.page_data.store.guests[idx];
+        preloadRsvpForm(guest);
+        fadeIn(rsvpFormBlock); // Show the form
+      };
+    });
+  }, 100);
+}
