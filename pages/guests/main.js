@@ -364,7 +364,7 @@ function addGuestItemListeners() {
     guestItems.forEach((item, idx) => {
       item.onclick = () => {
         const guest = $app.components.page_data.store.guests[idx -1];
-        // showSidebar(importSidebar); // Show the form
+        showSidebar(importSidebar); // Show the form
         // fadeIn(importSidebar);
         preloadRsvpForm(guest);
       };
