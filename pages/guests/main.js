@@ -265,6 +265,14 @@ function showSidebar(sidebar) {
     }, fadeDuration);
   }
 
+function clearRSVPForm(){
+  const store = $app.components.page_data.store.rsvpForm;
+  store.fields.firstName = "";
+  store.fields.lastName  = "";
+  store.fields.phoneNumber  = "";
+  store.fields.guestCount  = "1";
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const exportSidebar = document.getElementById('export-sidebar');
   const importSidebar = document.getElementById('import-sidebar');
@@ -289,10 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   closeExportBtn.addEventListener('click', () => {
+    clearRSVPForm();
     hideSidebar(exportSidebar);
   });
 
   closeImportBtn.addEventListener('click', () => {
+    clearRSVPForm();
     hideSidebar(importSidebar);
   });
 });
@@ -357,17 +367,16 @@ function preloadRsvpForm(guest) {
 }
 
 function addGuestItemListeners() {
- const importSidebar = document.getElementById('import-sidebar');
+    const importbtn = document.getElementById('import');
 
-  setTimeout(() => {
-    const guestItems = document.querySelectorAll('.stacked-list1_item');
-    guestItems.forEach((item, idx) => {
-      item.onclick = () => {
-        const guest = $app.components.page_data.store.guests[idx -1];
-        showSidebar(importSidebar); // Show the form
-        // fadeIn(importSidebar);
-        preloadRsvpForm(guest);
-      };
-    });
-  }, 100);
+    setTimeout(() => {
+      const guestItems = document.querySelectorAll('.stacked-list1_item');
+      guestItems.forEach((item, idx) => {
+        item.onclick = () => {
+          const guest = $app.components.page_data.store.guests[idx -1];
+          preloadRsvpForm(guest);
+          importbtn.click()
+        };
+      });
+    }, 100);
 }
