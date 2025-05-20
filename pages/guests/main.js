@@ -249,20 +249,7 @@ function fadeOut(element, duration = 500) {
 //<!--End of Export logic-->
 
 //<!-- sidebars-->
-
-document.addEventListener('DOMContentLoaded', () => {
-  const exportSidebar = document.getElementById('export-sidebar');
-  const importSidebar = document.getElementById('import-sidebar');
-
-  const openExportBtn = document.getElementById('export');
-  const openImportBtn = document.getElementById('import');
-
-  const closeExportBtn = document.getElementById('close-export-btn');
-  const closeImportBtn = document.getElementById('close-import-btn');
-
-  const fadeDuration = 300; // in ms
-
-  function showSidebar(sidebar) {
+function showSidebar(sidebar) {
     setTimeout(()=>{
     sidebar.style.display = 'flex';
     sidebar.style.opacity = '1';
@@ -276,6 +263,20 @@ document.addEventListener('DOMContentLoaded', () => {
       sidebar.style.display = 'none';
     }, fadeDuration);
   }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const exportSidebar = document.getElementById('export-sidebar');
+  const importSidebar = document.getElementById('import-sidebar');
+
+  const openExportBtn = document.getElementById('export');
+  const openImportBtn = document.getElementById('import');
+
+  const closeExportBtn = document.getElementById('close-export-btn');
+  const closeImportBtn = document.getElementById('close-import-btn');
+
+  const fadeDuration = 300; // in ms
+
+ 
 
   openExportBtn.addEventListener('click', () => {
     hideSidebar(importSidebar);
@@ -356,13 +357,16 @@ function preloadRsvpForm(guest) {
 }
 
 function addGuestItemListeners() {
+ const importSidebar = document.getElementById('import-sidebar');
+
   setTimeout(() => {
     const guestItems = document.querySelectorAll('.stacked-list1_item');
     guestItems.forEach((item, idx) => {
       item.onclick = () => {
-        const guest = $app.components.page_data.store.guests[idx];
+        const guest = $app.components.page_data.store.guests[idx -1];
+        showSidebar(importSidebar); // Show the form
+        fadeIn(importSidebar);
         preloadRsvpForm(guest);
-        fadeIn(rsvpFormBlock); // Show the form
       };
     });
   }, 100);
