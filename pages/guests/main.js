@@ -114,6 +114,20 @@ function fadeOut(element, duration = 500) {
   }, duration);
 }
 
+// RSVP mode tracking
+let rsvpMode = 'add'; // 'add' or 'edit'
+let editGuestIndex = null;
+
+function updateSubmitButtonText() {
+  const submitBtn = rsvpFormBlock.querySelector("[type='submit']");
+  if (!submitBtn) return;
+  if (rsvpMode === 'edit') {
+    submitBtn.value = "עדכן רשומה";
+  } else {
+    submitBtn.value = submitBtn.dataset.default || "הוסף אורח";
+  }
+}
+
   async function rsvp(e) {
     e.preventDefault(); 
     e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
@@ -139,7 +153,7 @@ function fadeOut(element, duration = 500) {
       submitBtn.value = submitBtn.dataset.wait;
       
       const { data: response, error } = await supaClient.functions.invoke('invite-rsvp', { body: data });
-	  
+  
       submitBtn.value = submitBtnTxt;
       if (error) {
         store.error = error.message;
@@ -149,8 +163,11 @@ function fadeOut(element, duration = 500) {
        rsvpFormBlock.querySelector('.w-form-fail').style.display = 'none';
        rsvpFormBlock.querySelector('.w-form-done').style.display = 'block';
 
-        //update state
-        $app.components.page_data.store.guests.push(data);
+        if (rsvpMode === 'edit' && editGuestIndex !== null) {
+          $app.components.page_data.store.guests[editGuestIndex] = data;
+        } else {
+          $app.components.page_data.store.guests.push(data);
+        }
         addGuestItemListeners();
          supaClient.functions.invoke('get-rsvp-summary', { method: 'GET' }).then(({ data, error }) => {
          data && Object.assign($app.components.page_data.store.guestsData, data);
@@ -271,6 +288,9 @@ function clearRSVPForm(){
   store.fields.lastName  = "";
   store.fields.phoneNumber  = "";
   store.fields.guestCount  = "1";
+  rsvpMode = 'add';
+  editGuestIndex = null;
+  updateSubmitButtonText();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -305,6 +325,8 @@ document.addEventListener('DOMContentLoaded', () => {
     clearRSVPForm();
     hideSidebar(importSidebar);
   });
+
+  updateSubmitButtonText(); // Set initial button text
 });
 
 
@@ -368,14 +390,16 @@ function preloadRsvpForm(guest) {
 
 function addGuestItemListeners() {
     const importbtn = document.getElementById('import');
-
     setTimeout(() => {
       const guestItems = document.querySelectorAll('.stacked-list1_item');
       guestItems.forEach((item, idx) => {
         item.onclick = () => {
           const guest = $app.components.page_data.store.guests[idx -1];
           preloadRsvpForm(guest);
-          importbtn.click()
+          rsvpMode = 'edit';
+          editGuestIndex = idx - 1;
+          updateSubmitButtonText();
+          importbtn.click();
         };
       });
     }, 100);
