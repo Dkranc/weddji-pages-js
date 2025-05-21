@@ -78,6 +78,66 @@ function updateIframeTemplate() {
     console.log("missing template metadata");
   }
 }
+
+//<!-- Google Places Autocomplete -->
+function initAutocomplete() {
+  const input = document.getElementById("wedding-location");
+  const autocomplete = new google.maps.places.Autocomplete(input);
+  const errorMsg = input.parentElement.querySelector(".error-msg");
+  const latitudeField = document.getElementById("wedding-location-latitude");
+  const longitudeField = document.getElementById("wedding-location-longitude");
+  const placeName = document.getElementById("wedding-location-name");
+
+  // Optionally restrict the autocomplete predictions to specific types or countries
+  autocomplete.setFields(["address_components", "geometry", "name"]);
+  autocomplete.setComponentRestrictions({ country: ["il"] });
+
+  function toggleError(show) {
+    if (errorMsg) {
+      errorMsg.style.display = show ? "block" : "none";
+      if (show) {
+        latitudeField.value = "";
+        longitudeField.value = "";
+        placeName.value = "";
+      }
+    }
+  }
+
+  let isValidPlace = false;
+
+  // Handle event when user selects a place from dropdown
+  autocomplete.addListener("place_changed", () => {
+    const place = autocomplete.getPlace();
+    isValidPlace = !!place.geometry;
+
+    if (!isValidPlace) {
+      console.error("No details available for input: " + place.name);
+      toggleError(true);
+      return;
+    }
+
+    toggleError(false);
+    latitudeField.value = place.geometry.location.lat();
+    longitudeField.value = place.geometry.location.lng();
+    placeName.value = place.name;
+  });
+
+  input.addEventListener("input", () => {
+    isValidPlace = false; // Reset validation
+    toggleError(false); // Clear the error while typing
+  });
+
+  input.addEventListener("blur", () => {
+    if (!isValidPlace) {
+      input.value = "";
+      toggleError(true);
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initAutocomplete);
+//<!-- END OF Google Places Autocomplete -->
+
 //pre- populate with template cms item saved data
 supaClient.functions
   .invoke("get-invitation-details", { method: "GET" })
@@ -415,64 +475,7 @@ if (defaultChecked) {
 }
 //<!-- END OF Color Palette Radios logic -->
 
-//<!-- Google Places Autocomplete -->
-function initAutocomplete() {
-  const input = document.getElementById("wedding-location");
-  const autocomplete = new google.maps.places.Autocomplete(input);
-  const errorMsg = input.parentElement.querySelector(".error-msg");
-  const latitudeField = document.getElementById("wedding-location-latitude");
-  const longitudeField = document.getElementById("wedding-location-longitude");
-  const placeName = document.getElementById("wedding-location-name");
 
-  // Optionally restrict the autocomplete predictions to specific types or countries
-  autocomplete.setFields(["address_components", "geometry", "name"]);
-  autocomplete.setComponentRestrictions({ country: ["il"] });
-
-  function toggleError(show) {
-    if (errorMsg) {
-      errorMsg.style.display = show ? "block" : "none";
-      if (show) {
-        latitudeField.value = "";
-        longitudeField.value = "";
-        placeName.value = "";
-      }
-    }
-  }
-
-  let isValidPlace = false;
-
-  // Handle event when user selects a place from dropdown
-  autocomplete.addListener("place_changed", () => {
-    const place = autocomplete.getPlace();
-    isValidPlace = !!place.geometry;
-
-    if (!isValidPlace) {
-      console.error("No details available for input: " + place.name);
-      toggleError(true);
-      return;
-    }
-
-    toggleError(false);
-    latitudeField.value = place.geometry.location.lat();
-    longitudeField.value = place.geometry.location.lng();
-    placeName.value = place.name;
-  });
-
-  input.addEventListener("input", () => {
-    isValidPlace = false; // Reset validation
-    toggleError(false); // Clear the error while typing
-  });
-
-  input.addEventListener("blur", () => {
-    if (!isValidPlace) {
-      input.value = "";
-      toggleError(true);
-    }
-  });
-}
-
-document.addEventListener("DOMContentLoaded", initAutocomplete);
-//<!-- END OF Google Places Autocomplete -->
 
 
 
