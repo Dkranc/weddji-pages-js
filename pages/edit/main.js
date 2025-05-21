@@ -256,6 +256,7 @@ async function saveAndRefreash(e) {
   const form = document.querySelector("#Invite-details-form");
   const formData = new FormData(form);
 
+
   // Include all input, textarea, and select elements - comment out untill update and remove is ready
   // const formData = new FormData();
   // const fields = form.querySelectorAll("input");
@@ -264,7 +265,8 @@ async function saveAndRefreash(e) {
   // });
   const templateData = {};
   for (const [key, value] of formData.entries()) {
-    if (value !== undefined) {
+    // if (value !== undefined) { -- also fpr when update is ready
+    if (value) {
       templateData[key] = value;
     }
   }
