@@ -254,14 +254,14 @@ async function saveAndRefreash(e) {
   e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
 
   const form = document.querySelector("#Invite-details-form");
-  //const formData = new FormData(form);
+  const formData = new FormData(form);
 
-  // Include all input, textarea, and select elements
-  const formData = new FormData();
-  const fields = form.querySelectorAll("input");
-  fields.forEach((field) => {
-    if (field.name) formData.append(field.name, field.value || "");
-  });
+  // Include all input, textarea, and select elements - comment out untill update and remove is ready
+  // const formData = new FormData();
+  // const fields = form.querySelectorAll("input");
+  // fields.forEach((field) => {
+  //   if (field.name) formData.append(field.name, field.value || "");
+  // });
   const templateData = {};
   for (const [key, value] of formData.entries()) {
     if (value !== undefined) {
@@ -370,43 +370,7 @@ async function signup(e) {
 document.querySelector("#signup-form").addEventListener("submit", signup);
 //<!-- END OF user flow logic -->
 
-//<!-- iframe resizing logic -->
-function scaleIframes() {
-  try {
-    const desktopContainers = document.querySelectorAll(".desktop-container");
-    const mobileContainers = document.querySelectorAll(
-      ".iframe-container.mobile-container"
-    );
 
-    desktopContainers.forEach((container) => {
-      const iframe = container.querySelector(".desktop-iframe");
-      const scale = container.offsetWidth / 1440;
-      iframe.style.transform = `scale(${scale})`;
-      container.style.height = `${810 * scale}px`;
-    });
-
-    mobileContainers.forEach((container) => {
-      const iframe = container.querySelector(".mobile-iframe");
-      const scale = container.offsetWidth / 393;
-      iframe.style.transform = `scale(${scale})`;
-      container.style.height = "auto"; // Let the container height define the iframe
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
-// Initial scale
-scaleIframes();
-// Scale on window resize
-window.addEventListener("resize", scaleIframes);
-// Scale on container resize
-const resizeObserver = new ResizeObserver(scaleIframes);
-document
-  .querySelectorAll(".desktop-container, .iframe-container.mobile-container")
-  .forEach((container) => {
-    resizeObserver.observe(container);
-  });
-//<!-- END OF iframe resizing logic -->
 
 //<!-- Live whatsapp view mirroring -->
 // Whatsapp Fields Mirroring
