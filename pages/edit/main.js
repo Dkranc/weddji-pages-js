@@ -479,9 +479,8 @@ document.addEventListener("DOMContentLoaded", () => {
   submitBtn.disabled = true;
   submitBtn.style.opacity = "0.5";
   submitBtn.style.pointerEvents = "none";
-});
 
-//<!-- Enable payment button -->
+  //<!-- Enable payment button -->
 
 supaClient.auth.getSession().then(({ data, error }) => {
   if (error || !data || !data.session) window.location.href = "/log-in";
@@ -527,6 +526,9 @@ async function getPaymentLink(price) {
   document.getElementById("payment-btn").href = data.data;
   document.getElementById("payment-btn").text = "לתשלום";
 }
+});
+
+
 
 //function handleOverlayClick(event) {
 //const popupIds = ['#questions-popup', '#signup-popup', '#payment-popup'];
