@@ -343,12 +343,31 @@ document
   .querySelector("#wf-form-feedback")
   .addEventListener("submit", completeQuestions);
 
+
+
+  //user signup logic and flow
+  let errorSIgnUp, submitBtn;
+  document.addEventListener('DOMContentLoaded', () => {
+    errorSIgnUp = document.getElementById('signup-error-msg');
+    submitBtn = document.querySelector("#signup-form button");
+  });
+
 async function signup(e) {
   e.preventDefault();
   e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
 
   const store = $app.components.page_data.store.signupForm;
   store.error = "";
+
+  if(!isValidEmail(store.fields.email) || !isValidPassword(store.fields.password) || !isValidName(store.fields.fullName)) {
+    errorSIgnUp.style.display = 'block';
+    setTimeout(() => {
+        errorSIgnUp.style.display = 'none';
+    }, 4000); //remove after4 seconds.
+    return;
+}
+
+submitBtn.value = 'רק רגע...';
 
   const { data, error } = await supaClient.auth.updateUser({
     email: store.fields.email,
@@ -361,6 +380,7 @@ async function signup(e) {
 
   if (error) {
     store.error = error.message;
+    submitBtn.value = 'תרשמו אותי';
   } else {
     const user = ($app.components.page_data.store.user.is_anonymous = false);
     document.querySelector("#signup-popup").style.display = "none";
@@ -369,6 +389,19 @@ async function signup(e) {
     document.querySelector("#payment-popup").style.opacity = 1;
   }
 }
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function isValidPassword(password) {
+  return password.length >= 6;
+}
+
+function isValidName(name) {
+  return name.length >= 3;
+}
+
 document.querySelector("#signup-form").addEventListener("submit", signup);
 //<!-- END OF user flow logic -->
 
