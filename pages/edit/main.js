@@ -48,8 +48,10 @@ supaClient.auth.getUser().then(({ data }) => {
 
 //<!-- Show upload image success icon -->
 function showUploadImageSuccessIcon() {
-  const uploadCtxProviders = document.querySelectorAll("uc-upload-ctx-provider");
-  console.log('im here',uploadCtxProviders);
+  const uploadCtxProviders = document.querySelectorAll(
+    "uc-upload-ctx-provider"
+  );
+  console.log("im here", uploadCtxProviders);
   uploadCtxProviders.forEach((ctx) => {
     const successIcon = ctx
       .closest(".form_field-wrapper")
@@ -57,13 +59,14 @@ function showUploadImageSuccessIcon() {
     ctx.addEventListener("change", (e) => {
       if (e.detail.isSuccess && successIcon) {
         successIcon.style.display = "inline-flex";
-        successIcon.querySelector("img").src = e.detail.successEntries[0].cdnUrl;
+        successIcon.querySelector("img").src =
+          e.detail.successEntries[0].cdnUrl;
         successIcon.style.justifyContent = "space-between";
       } else {
         successIcon.style.display = "none";
       }
     });
-  });  
+  });
 }
 document.addEventListener("DOMContentLoaded", showUploadImageSuccessIcon);
 
@@ -151,8 +154,8 @@ supaClient.functions
 
     for (const [key, value] of values) {
       const elements = document.getElementsByName(key);
-      if(key.includes('image')){
-        setImageFields(key,value?.url);
+      if (key.includes("image")) {
+        setImageFields(key, value?.url);
       }
       if (
         elements &&
@@ -212,7 +215,7 @@ function extractDateIfValid(input) {
   return; // Not a valid ISO datetime string
 }
 
-function setImageFields(key,imageUrl) {
+function setImageFields(key, imageUrl) {
   const config = document.querySelectorAll(
     `uc-upload-ctx-provider[ctx-name="${key}"]`
   );
@@ -255,7 +258,6 @@ async function saveAndRefreash(e) {
 
   const form = document.querySelector("#Invite-details-form");
   const formData = new FormData(form);
-
 
   // Include all input, textarea, and select elements - comment out untill update and remove is ready
   // const formData = new FormData();
@@ -343,14 +345,12 @@ document
   .querySelector("#wf-form-feedback")
   .addEventListener("submit", completeQuestions);
 
-
-
-  //user signup logic and flow
-  let errorSIgnUp, submitBtn;
-  document.addEventListener('DOMContentLoaded', () => {
-    errorSIgnUp = document.getElementById('signup-error-msg');
-    submitBtn = document.getElementById('submit-btn-signup');
-  });
+//user signup logic and flow
+let errorSIgnUp, submitBtn;
+document.addEventListener("DOMContentLoaded", () => {
+  errorSIgnUp = document.getElementById("signup-error-msg");
+  submitBtn = document.getElementById("submit-btn-signup");
+});
 
 async function signup(e) {
   e.preventDefault();
@@ -359,15 +359,19 @@ async function signup(e) {
   const store = $app.components.page_data.store.signupForm;
   store.error = "";
 
-  if(!isValidEmail(store.fields.email) || !isValidPassword(store.fields.password) || !isValidName(store.fields.fullName)) {
-    errorSIgnUp.style.display = 'block';
+  if (
+    !isValidEmail(store.fields.email) ||
+    !isValidPassword(store.fields.password) ||
+    !isValidName(store.fields.fullName)
+  ) {
+    errorSIgnUp.style.display = "block";
     setTimeout(() => {
-        errorSIgnUp.style.display = 'none';
+      errorSIgnUp.style.display = "none";
     }, 4000); //remove after4 seconds.
     return;
-}
+  }
 
-submitBtn.value = 'רק רגע...';
+  submitBtn.value = "רק רגע...";
 
   const { data, error } = await supaClient.auth.updateUser({
     email: store.fields.email,
@@ -380,7 +384,7 @@ submitBtn.value = 'רק רגע...';
 
   if (error) {
     store.error = error.message;
-    submitBtn.value = 'תרשמו אותי';
+    submitBtn.value = "תרשמו אותי";
   } else {
     const user = ($app.components.page_data.store.user.is_anonymous = false);
     document.querySelector("#signup-popup").style.display = "none";
@@ -404,8 +408,6 @@ function isValidName(name) {
 
 document.querySelector("#signup-form").addEventListener("submit", signup);
 //<!-- END OF user flow logic -->
-
-
 
 //<!-- Live whatsapp view mirroring -->
 // Whatsapp Fields Mirroring
@@ -433,14 +435,17 @@ document
 
 //<!-- Color Palette Radios logic -->
 // Select the first radio button with the name "color-palette"
-document.querySelector('input[name="color-palette"]').checked = true;
-// hide color-pallettes that don't have style
-document
-  .querySelectorAll(".color-swatch:not([style])")
-  .forEach((el) => (el.style.display = "none"));
+let radioInputs;
+window.addEventListener("DOMContentLoaded", () => {
+  document.querySelector('input[name="color-palette"]').checked = true;
+  // hide color-pallettes that don't have style
+  document
+    .querySelectorAll(".color-swatch:not([style])")
+    .forEach((el) => (el.style.display = "none"));
 
-// Select all radio inputs with the name 'color-palette'
-const radioInputs = document.querySelectorAll('input[name="color-palette"]');
+  // Select all radio inputs with the name 'color-palette'
+   radioInputs = document.querySelectorAll('input[name="color-palette"]');
+});
 
 // Function to update active state
 function updateActiveState(event) {
@@ -473,11 +478,6 @@ if (defaultChecked) {
   updateActiveState({ target: defaultChecked });
 }
 //<!-- END OF Color Palette Radios logic -->
-
-
-
-
-
 
 //<!--close popups on outside click-->
 
@@ -515,53 +515,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //<!-- Enable payment button -->
 
-supaClient.auth.getSession().then(({ data, error }) => {
-  if (error || !data || !data.session) window.location.href = "/log-in";
-  else {
-    //get the template price
-    const lastSegment = window.location.pathname
-      .replace(/\/$/, "")
-      .split("/")
-      .pop();
-    supaClient.functions
-      .invoke("get-template-metadata", { method: "GET" })
-      .then(({ data, error }) => {
-        if (error) {
-          console.log(error);
-          return;
-        }
-        const template = data.find((temp) => temp.templateslug === lastSegment);
-        if (!template || !template.price) return;
-        const price = template.price;
+  supaClient.auth.getSession().then(({ data, error }) => {
+    if (error || !data || !data.session) window.location.href = "/log-in";
+    else {
+      //get the template price
+      const lastSegment = window.location.pathname
+        .replace(/\/$/, "")
+        .split("/")
+        .pop();
+      supaClient.functions
+        .invoke("get-template-metadata", { method: "GET" })
+        .then(({ data, error }) => {
+          if (error) {
+            console.log(error);
+            return;
+          }
+          const template = data.find(
+            (temp) => temp.templateslug === lastSegment
+          );
+          if (!template || !template.price) return;
+          const price = template.price;
 
-        getPaymentLink(price);
-      });
-  }
-});
-
-async function getPaymentLink(price) {
-  if (!price) {
-    console.log("price not found");
-    return;
-  }
-  const { data, error } = await supaClient.functions.invoke(
-    "get-payment-link",
-    {
-      body: { price }, // 👈 pass your dynamic price here
+          getPaymentLink(price);
+        });
     }
-  );
+  });
 
-  if (error) {
-    console.error(error);
-    return;
+  async function getPaymentLink(price) {
+    if (!price) {
+      console.log("price not found");
+      return;
+    }
+    const { data, error } = await supaClient.functions.invoke(
+      "get-payment-link",
+      {
+        body: { price }, // 👈 pass your dynamic price here
+      }
+    );
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    document.getElementById("payment-btn").href = data.data;
+    document.getElementById("payment-btn").text = "לתשלום";
   }
-
-  document.getElementById("payment-btn").href = data.data;
-  document.getElementById("payment-btn").text = "לתשלום";
-}
 });
-
-
 
 //function handleOverlayClick(event) {
 //const popupIds = ['#questions-popup', '#signup-popup', '#payment-popup'];
