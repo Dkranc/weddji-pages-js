@@ -29,9 +29,9 @@
     store.error = '';
 
     if(!isValidEmail(store.fields.email) || !isValidPassword(store.fields.password) || !isValidName(store.fields.fullName)) {
-        errorSIgnUp?.style.display = 'block';
+        errorSIgnUp.style.display = 'block';
         setTimeout(() => {
-            errorSIgnUp?.style.display = 'none';
+            errorSIgnUp.style.display = 'none';
         }, 4000); //remove after4 seconds.
         return;
     }
