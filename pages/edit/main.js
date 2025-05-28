@@ -434,10 +434,14 @@ document
 //<!-- END OF Live whatsapp view mirroring -->
 
 //<!-- Color Palette Radios logic -->
-// Select the first radio button with the name "color-palette"
 let radioInputs;
 window.addEventListener("DOMContentLoaded", () => {
-  document.querySelector('input[name="color-palette"]').checked = true;
+  // Select the first radio button with the name "color-palette"
+
+  const firstRadio =  document.querySelector('input[name="color-palette"]');
+  if(firstRadio) {
+    firstRadio.checked = true;
+  }
   // hide color-pallettes that don't have style
   document
     .querySelectorAll(".color-swatch:not([style])")
