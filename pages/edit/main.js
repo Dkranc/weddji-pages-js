@@ -438,8 +438,8 @@ let radioInputs;
 window.addEventListener("DOMContentLoaded", () => {
   // Select the first radio button with the name "color-palette"
 
-  const firstRadio =  document.querySelector('input[name="color-palette"]');
-  if(firstRadio) {
+  const firstRadio = document.querySelector('input[name="color-palette"]');
+  if (firstRadio) {
     firstRadio.checked = true;
   }
   // hide color-pallettes that don't have style
@@ -448,7 +448,20 @@ window.addEventListener("DOMContentLoaded", () => {
     .forEach((el) => (el.style.display = "none"));
 
   // Select all radio inputs with the name 'color-palette'
-   radioInputs = document.querySelectorAll('input[name="color-palette"]');
+  radioInputs = document.querySelectorAll('input[name="color-palette"]');
+
+  // Add change event listener to all radio inputs
+  radioInputs.forEach((radio) => {
+    radio.addEventListener("change", updateActiveState);
+  });
+
+  // Initial call to set active state based on default checked radio (if any)
+  const defaultChecked = document.querySelector(
+    'input[name="color-palette"]:checked'
+  );
+  if (defaultChecked) {
+    updateActiveState({ target: defaultChecked });
+  }
 });
 
 // Function to update active state
@@ -469,18 +482,6 @@ function updateActiveState(event) {
   }
 }
 
-// Add change event listener to all radio inputs
-radioInputs.forEach((radio) => {
-  radio.addEventListener("change", updateActiveState);
-});
-
-// Initial call to set active state based on default checked radio (if any)
-const defaultChecked = document.querySelector(
-  'input[name="color-palette"]:checked'
-);
-if (defaultChecked) {
-  updateActiveState({ target: defaultChecked });
-}
 //<!-- END OF Color Palette Radios logic -->
 
 //<!--close popups on outside click-->
