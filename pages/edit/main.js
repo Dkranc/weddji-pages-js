@@ -349,7 +349,7 @@ document
   let errorSIgnUp, submitBtn;
   document.addEventListener('DOMContentLoaded', () => {
     errorSIgnUp = document.getElementById('signup-error-msg');
-    submitBtn = document.querySelector("#signup-form button");
+    submitBtn = document.getElementById('submit-btn-signup');
   });
 
 async function signup(e) {
