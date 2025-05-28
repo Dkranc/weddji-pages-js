@@ -17,9 +17,10 @@
     if (data && data.session) window.location.href = '/dashboard';  	
   });
 
-  let errorSIgnUp;
+  let errorSIgnUp, submitBtn;
   document.addEventListener('DOMContentLoaded', () => {
     errorSIgnUp = document.getElementById('signup-error-msg');
+    submitBtn = document.getElementById('submit-btn');
   })
 
   async function register(store, el, e) {
@@ -28,9 +29,13 @@
     store.error = '';
 
     if(!isValidEmail(store.fields.email) || !isValidPassword(store.fields.password) || !isValidName(store.fields.fullName)) {
-        errorSIgnUp.style.display = 'block';
+        errorSIgnUp?.style.display = 'block';
+        setTimeout(() => {
+            errorSIgnUp?.style.display = 'none';
+        }, 4000); //remove after4 seconds.
         return;
     }
+    submitBtn.textContent = 'רק שנייה...';
 
     const { data, error } = await supaClient.auth.signUp({
       email: store.fields.email,
