@@ -35,7 +35,7 @@
         }, 4000); //remove after4 seconds.
         return;
     }
-    submitBtn.textContent = 'רק שנייה...';
+    submitBtn.value = 'רק רגע...';
 
     const { data, error } = await supaClient.auth.signUp({
       email: store.fields.email,
