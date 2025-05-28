@@ -51,9 +51,9 @@
 
     if (error) {
     	store.error = error.message;
+        submitBtn.value = 'תרשמו אותי';
     }
     else {
-      console.log('User data:', data);
       window.location.href = '/choose-template';
     }
   }
