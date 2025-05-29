@@ -1,3 +1,6 @@
+// file path = <script src="https://cdn.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/dashboard/main.js"></script>
+//to update cdn visit : https://purge.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/dashboard/main.js
+
 // Populate page data -->
 
 	const pageData = {
