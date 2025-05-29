@@ -15,6 +15,7 @@
       notAttending: '',
     },
     guests: [],
+    email: ''
   }
   $app.createComponent('page_data', pageData).mount('#dashboard-page');
   
@@ -24,6 +25,7 @@
       Object.assign(document.querySelector('.page-loader').style, { transform: 'translate(0, -100%)', opacity: '0' });
     	// check if user purchased a template
       const user_metadata = data.user.user_metadata;
+      $app.components.page_data.store.email = data.user.email;
       if (user_metadata && user_metadata.isPublished && !!user_metadata.isPaying) {
         $app.components.page_data.store.slugSelected = user_metadata.slugSelected;
         $app.components.page_data.store.inviteLink = `https://rsvp.weddji.com/${user_metadata.templateName}/${user_metadata.invitationSlug}`;
@@ -204,6 +206,8 @@ function shareEmail() {
 
 //>add contacts popup//>
 
+
+
   document.addEventListener("DOMContentLoaded", function () {
     const button = document.getElementById("add-contacts-btn");
     const popup = document.getElementById("add-contacts-popup");
@@ -217,4 +221,37 @@ function shareEmail() {
         popup.style.display = "none";
       });
     }
+
+    //add qr code and whatsapp link to the popup
+    const email = $app.components.page_data.store.email;
+
+    const waButton = document.getElementById("wa-link-btn");
+    waButton.href = getDestinationLink(email);
+    
+    const qrContainer = document.querySelector(".qr-cont");
+    qrContainer.innerHTML = "";
+  
+    // Create an image element
+    const img = document.createElement("img");
+    const qrUrl = getWhatsAppLink(email);
+    img.src = qrUrl; 
+    img.alt = "QR Code";
+  
+    // Append the image to the container
+    qrContainer.appendChild(img);
   });
+
+  // Generate a QR code image from the user's email and return an HTML message
+function getDestinationLink(email) {
+ const textMessage = `היי, אני רוצה להוסיף מוזמנים לחתונה שלי! כתובת המייל שלי באתר שלכם היא ${email}`;
+
+  const destinationLink = `https://wa.me/972526724005?text=${encodeURIComponent(textMessage)}`; //change to real number
+  return destinationLink;
+}
+
+function getWhatsAppLink(email) {
+    // Use a free QR code API (e.g., goqr.me)
+    const destinationLink = getDestinationLink(email);
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${destinationLink}`;
+    return qrUrl;
+  }
