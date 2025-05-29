@@ -227,8 +227,8 @@ function shareEmail() {
 
     const waButton = document.getElementById("wa-link-btn");
     waButton.href = getDestinationLink(email);
-    
-    const qrContainer = document.querySelector(".qr-cont");
+
+    const qrContainer = document.getElementById("qr-cont");
     qrContainer.innerHTML = "";
   
     // Create an image element
