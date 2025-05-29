@@ -277,9 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function getDestinationLink(email) {
   const textMessage = `היי, אני רוצה להוסיף מוזמנים לחתונה שלי! כתובת המייל שלי באתר שלכם היא ${email}`;
 
-  const destinationLink = `https://wa.me/972526724005?text=${encodeURIComponent(
-    textMessage
-  )}`; //change to real number
+  const destinationLink = `https://wa.me/972526724005?text=${encodeURIComponent(textMessage)}`; //change to real number
   return destinationLink;
 }
 
