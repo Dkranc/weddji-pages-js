@@ -239,6 +239,21 @@ window.addEventListener("DOMContentLoaded", () => {
 
 //>add contacts popup//>
 
+// Generate a QR code image from the user's email and return an HTML message
+function getDestinationLink(email) {
+  const textMessage = `היי, אני רוצה להוסיף מוזמנים לחתונה שלי! כתובת המייל שלי באתר שלכם היא ${email}`;
+
+  const destinationLink = `https://wa.me/972528815819?text=${encodeURIComponentURIComponent(textMessage)}`; //change to real number
+  return destinationLink;
+}
+
+function getWhatsAppLink(email) {
+  // Use a free QR code API (e.g., goqr.me)
+  const destinationLink = getDestinationLink(email);
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${destinationLink}`;
+  return qrUrl;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const button = document.getElementById("add-contacts-btn");
   const popup = document.getElementById("add-contacts-popup");
@@ -274,17 +289,4 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Generate a QR code image from the user's email and return an HTML message
-function getDestinationLink(email) {
-  const textMessage = `היי, אני רוצה להוסיף מוזמנים לחתונה שלי! כתובת המייל שלי באתר שלכם היא ${email}`;
 
-  const destinationLink = `https://wa.me/972528815819?text=${encodeURIComponentURIComponent(textMessage)}`; //change to real number
-  return destinationLink;
-}
-
-function getWhatsAppLink(email) {
-  // Use a free QR code API (e.g., goqr.me)
-  const destinationLink = getDestinationLink(email);
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${destinationLink}`;
-  return qrUrl;
-}
