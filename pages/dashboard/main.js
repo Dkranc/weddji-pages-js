@@ -265,6 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Create an image element
     const img = document.createElement("img");
     const qrUrl = getWhatsAppLink(email);
+    console.log(qrUrl);
     img.src = qrUrl;
     img.alt = "QR Code";
 
