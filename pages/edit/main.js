@@ -253,6 +253,7 @@ function updateWhatsAppImage(imageUrl) {
 }
 
 async function saveAndRefreash(e) {
+  console.log("saveAndRefreash");
   e.preventDefault();
   e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
 
@@ -299,6 +300,7 @@ async function saveAndRefreash(e) {
 //   .querySelector("#Invite-details-form")
 //   .addEventListener("submit", saveAndRefreash);
 window.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded- adding event listener");
   document
     .getElementById("submit-edit")
     .addEventListener("click", saveAndRefreash);
