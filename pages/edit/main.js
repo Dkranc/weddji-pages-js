@@ -296,15 +296,10 @@ async function saveAndRefreash(e) {
     console.log(error);
   }
 }
-// document
-//   .querySelector("#Invite-details-form")
-//   .addEventListener("submit", saveAndRefreash);
-window.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded- adding event listener");
-  document
-    .getElementById("submit-edit")
-    .addEventListener("click", saveAndRefreash);
-});
+document
+  .querySelector("#Invite-details-form")
+  .addEventListener("submit", saveAndRefreash);
+
 
 async function completeEdit(e) {
   const user = $app.components.page_data.store.user;
