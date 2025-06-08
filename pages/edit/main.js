@@ -295,9 +295,14 @@ async function saveAndRefreash(e) {
     console.log(error);
   }
 }
-document
-  .querySelector("#Invite-details-form")
-  .addEventListener("submit", saveAndRefreash);
+// document
+//   .querySelector("#Invite-details-form")
+//   .addEventListener("submit", saveAndRefreash);
+window.addEventListener("DOMContentLoaded", () => {
+  document
+    .getElementById("submit-edit")
+    .addEventListener("click", saveAndRefreash);
+});
 
 async function completeEdit(e) {
   const user = $app.components.page_data.store.user;
