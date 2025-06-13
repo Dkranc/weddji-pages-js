@@ -11,6 +11,9 @@
     	attending: '',
       maybe: '',
       notAttending: '',
+      addedTolist:'',
+      invitationSent:'',
+      reminderSent:''
     },
     rsvpForm: {
       fields: {
