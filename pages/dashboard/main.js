@@ -237,6 +237,25 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+//popup contacts logic
+window.addEventListener("DOMContentLoaded", () => {
+  const addContactsPopup = document.getElementById("add-contacts-popup");
+  const googleButton = document.getElementById("google-btn");
+  const googlePopup = document.getElementById("google-contacts");
+  const icloudButton = document.getElementById("icloud-btn");
+  const icloudPopup = document.getElementById("icloud-contacts");
+
+  googleButton.addEventListener("click", () => {
+    googlePopup.style.display = "block";
+    addContactsPopup.style.display = "none";
+  })
+
+  icloudButton.addEventListener("click", () => {
+    icloudPopup.style.display = "block";
+    addContactsPopup.style.display = "none";
+  })
+})
+
 //>add contacts popup//>
 
 // Generate a QR code image from the user's email and return an HTML message
@@ -254,7 +273,7 @@ function getWhatsAppLink(email) {
   return qrUrl;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("DOMContentLoaded", function () {
   const button = document.getElementById("add-contacts-btn");
   const popup = document.getElementById("add-contacts-popup");
   const close = document.getElementById("close-add-contacts");
@@ -267,26 +286,6 @@ document.addEventListener("DOMContentLoaded", function () {
       popup.style.display = "none";
     });
   }
-
-  //add qr code and whatsapp link to the popup
-  supaClient.auth.getUser().then(({ data, error }) => {
-    const email = data.user.email;
-    const waButton = document.getElementById("wa-link-btn");
-    waButton.href = getDestinationLink(email);
-
-    const qrContainer = document.getElementById("qr-cont");
-    qrContainer.innerHTML = "";
-
-    // Create an image element
-    const img = document.createElement("img");
-    const qrUrl = getWhatsAppLink(email);
-    console.log(qrUrl);
-    img.src = qrUrl;
-    img.alt = "QR Code";
-
-    // Append the image to the container
-    qrContainer.appendChild(img);
-  });
 });
 
 
