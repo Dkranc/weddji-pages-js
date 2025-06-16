@@ -3,104 +3,104 @@
 
 //<!-- populate page guests logic -->
 
-	const pageData = {
-  	showLoading: true,
-    guests: [],
-    guestsData: {
-    	total: '',
-    	attending: '',
-      maybe: '',
-      notAttending: '',
-      addedTolist:'',
-      invitationSent:'',
-      reminderSent:''
+const pageData = {
+  showLoading: true,
+  guests: [],
+  guestsData: {
+    total: "",
+    attending: "",
+    maybe: "",
+    notAttending: "",
+    addedTolist: "",
+    invitationSent: "",
+    reminderSent: "",
+  },
+  rsvpForm: {
+    fields: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      guestCount: "1",
+      status: "",
     },
-    rsvpForm: {
-      fields: {
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        guestCount: '1',
-        status: '',
-      },
-      error: ''
-    },
-  }
-  $app.createComponent('page_data', pageData).mount('#guests-page');
+    error: "",
+  },
+  invitationId: "",
+};
+$app.createComponent("page_data", pageData).mount("#guests-page");
 
 //redirect user if needed
-    supaClient.auth.getUser().then(({ data, error }) => {
-    if (data && data.user) {
-    	// check if user purchased a template
-      const user_metadata = data.user.user_metadata;
-      if (user_metadata && user_metadata.isPublished && !!user_metadata.isPaying) {
-        //stay
-      } else if (user_metadata && user_metadata.isPublished && !user_metadata.isPaying) {
-      	document.getElementById('edit-link').click();
-      } else {
-      	window.location.href = '/choose-template';
-      }
+supaClient.auth.getUser().then(({ data, error }) => {
+  if (data && data.user) {
+    // check if user purchased a template
+    const user_metadata = data.user.user_metadata;
+    if (
+      user_metadata &&
+      user_metadata.isPublished &&
+      !!user_metadata.isPaying
+    ) {
+      //stay
+      $app.components.page_data.store.invitationId = user_metadata.invitationId;
+    } else if (
+      user_metadata &&
+      user_metadata.isPublished &&
+      !user_metadata.isPaying
+    ) {
+      document.getElementById("edit-link").click();
     } else {
-    	window.location.href = '/log-in';
-    }  	
-  });
-  ///
-  // get all guests
-  supaClient.functions.invoke('list-rsvp', { method: 'GET' }).then(({ data, error }) => {
+      window.location.href = "/choose-template";
+    }
+  } else {
+    window.location.href = "/log-in";
+  }
+});
+///
+// get all guests
+supaClient.functions
+  .invoke("list-rsvp", { method: "GET" })
+  .then(({ data, error }) => {
     $app.components.page_data.store.showLoading = false;
     if (data && data.length > 0) {
       $app.components.page_data.store.guests = data;
       addGuestItemListeners();
     }
   });
-  
-  // get guests data
-  supaClient.functions.invoke('get-rsvp-summary', { method: 'GET' }).then(({ data, error }) => {
+
+// get guests data
+supaClient.functions
+  .invoke("get-rsvp-summary", { method: "GET" })
+  .then(({ data, error }) => {
     data && Object.assign($app.components.page_data.store.guestsData, data);
   });
-  
-  /*
-	supaClient.functions.invoke('list-rsvp', {
-  	method: 'GET'
-  })
-  .then(({ data, error }) => {
-  	if (error) {
-    	console.log(error);
-      return;
-    }
-    $app.components.page_data.store.showLoading = false;
-    if (!data || data.length == 0) return;
-    $app.components.page_data.store.guests = data;
-  });
-  */
+
 
 //<!-- END OF populate page guests logic -->
 
 //<!-- Add RSVP form -->
 
-  const resetForm = () =>{
-      const store = $app.components.page_data.store.rsvpForm;
-        store.fields.firstName = "";
-        store.fields.lastName  = "";
-        store.fields.phoneNumber  = "";
-        store.fields.guestCount  = "1";
-        store.fields.status = "";
-       
-       const formEl = rsvpFormBlock.querySelector('form');
-       const failEl = rsvpFormBlock.querySelector('.w-form-fail');
-       const doneEl = rsvpFormBlock.querySelector('.w-form-done');
+const resetForm = () => {
+  const store = $app.components.page_data.store.rsvpForm;
+  store.fields.firstName = "";
+  store.fields.lastName = "";
+  store.fields.phoneNumber = "";
+  store.fields.guestCount = "1";
+  store.fields.status = "";
 
-    // Fade out the success and fail messages
-    fadeOut(failEl);
-    fadeOut(doneEl);
+  const formEl = rsvpFormBlock.querySelector("form");
+  const failEl = rsvpFormBlock.querySelector(".w-form-fail");
+  const doneEl = rsvpFormBlock.querySelector(".w-form-done");
 
-    // Fade in the form
-    fadeIn(formEl);
-  }
+  // Fade out the success and fail messages
+  fadeOut(failEl);
+  fadeOut(doneEl);
+
+  // Fade in the form
+  fadeIn(formEl);
+};
 
 function fadeIn(element, duration = 500) {
   element.style.opacity = 0;
-  element.style.display = 'block';
+  element.style.display = "block";
   element.style.transition = `opacity ${duration}ms ease-in`;
 
   // Force reflow to make sure the transition applies
@@ -113,157 +113,173 @@ function fadeOut(element, duration = 500) {
   element.style.opacity = 0;
 
   setTimeout(() => {
-    element.style.display = 'none';
+    element.style.display = "none";
   }, duration);
 }
 
 // RSVP mode tracking
-let rsvpMode = 'add'; // 'add' or 'edit'
+let rsvpMode = "add"; // 'add' or 'edit'
 let editGuestIndex = null;
 
 function updateSubmitButtonText() {
   const submitBtn = rsvpFormBlock.querySelector("[type='submit']");
   if (!submitBtn) return;
-  if (rsvpMode === 'edit') {
+  if (rsvpMode === "edit") {
     submitBtn.value = "עדכן רשומה";
   } else {
     submitBtn.value = submitBtn.dataset.default || "הוסף אורח";
   }
 }
 
-  async function rsvp(e) {
-    e.preventDefault(); 
-    e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
-    
-    const store = $app.components.page_data.store.rsvpForm;
-    store.error = '';
-
-    try {
-      const {data: userData , error : dataError } = await supaClient.auth.getUser();
-
-      const data = {
-        templateSlug: userData?.user?.user_metadata?.templateName,//window.location.pathname.split('/')[1],
-        invitationSlug: userData?.user?.user_metadata?.invitationSlug,//window.location.pathname.split('/')[2],
-        firstName: store.fields.firstName,
-        lastName: store.fields.lastName,
-        phoneNumber: store.fields.phoneNumber,
-        guestCount: store.fields.guestCount,
-        status: store.fields.status,
-      };
-      
-      const submitBtn = rsvpFormBlock.querySelector("[type='submit']");
-      const submitBtnTxt = submitBtn.value;
-      submitBtn.value = submitBtn.dataset.wait;
-      
-      const { data: response, error } = await supaClient.functions.invoke('invite-rsvp', { body: data });
-  
-      submitBtn.value = submitBtnTxt;
-      if (error) {
-        store.error = error.message;
-        rsvpFormBlock.querySelector('.w-form-fail').style.display = 'block';
-      } else {
-       rsvpFormBlock.querySelector('form').style.display = 'none';
-       rsvpFormBlock.querySelector('.w-form-fail').style.display = 'none';
-       rsvpFormBlock.querySelector('.w-form-done').style.display = 'block';
-
-        if (rsvpMode === 'edit' && editGuestIndex !== null) {
-          $app.components.page_data.store.guests[editGuestIndex] = data;
-        } else {
-          $app.components.page_data.store.guests.push(data);
-        }
-        addGuestItemListeners();
-         supaClient.functions.invoke('get-rsvp-summary', { method: 'GET' }).then(({ data, error }) => {
-         data && Object.assign($app.components.page_data.store.guestsData, data);
-        });
-        setTimeout(()=>{
-          resetForm();
-         },2500);
-      }
-    } catch (err) {
-      console.error('Unexpected error:', err);
-    }
-  }
-  
-  const rsvpRadioBtns = document.querySelectorAll("input[type='radio'][data-name='rsvp']");
-  if ( rsvpRadioBtns ) {
-  	rsvpRadioBtns.forEach(rsvpRadio => {
-    	rsvpRadio.addEventListener('change', (e) => {
-        	$app.components.page_data.store.rsvpForm.fields.status = e.target.value;
-        });
-    });
-  }
+async function rsvp(e) {
+  e.preventDefault();
+  e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
 
   const store = $app.components.page_data.store.rsvpForm;
+  store.error = "";
 
-  const addBtn = document.getElementById('guest-inc');
-  addBtn.addEventListener('click', ()=>{
-   if(Number(store.fields.guestCount) < 5 ){// dont allow more then 5
-     store.fields.guestCount = String(Number(store.fields.guestCount) + 1);
+  try {
+    const { data: userData, error: dataError } =
+      await supaClient.auth.getUser();
+
+    const data = {
+      templateSlug: userData?.user?.user_metadata?.templateName, //window.location.pathname.split('/')[1],
+      invitationSlug: userData?.user?.user_metadata?.invitationSlug, //window.location.pathname.split('/')[2],
+      firstName: store.fields.firstName,
+      lastName: store.fields.lastName,
+      phoneNumber: store.fields.phoneNumber,
+      guestCount: store.fields.guestCount,
+      status: store.fields.status,
+    };
+
+    const submitBtn = rsvpFormBlock.querySelector("[type='submit']");
+    const submitBtnTxt = submitBtn.value;
+    submitBtn.value = submitBtn.dataset.wait;
+
+    const { data: response, error } = await supaClient.functions.invoke(
+      "invite-rsvp",
+      { body: data }
+    );
+
+    submitBtn.value = submitBtnTxt;
+    if (error) {
+      store.error = error.message;
+      rsvpFormBlock.querySelector(".w-form-fail").style.display = "block";
+    } else {
+      rsvpFormBlock.querySelector("form").style.display = "none";
+      rsvpFormBlock.querySelector(".w-form-fail").style.display = "none";
+      rsvpFormBlock.querySelector(".w-form-done").style.display = "block";
+
+      if (rsvpMode === "edit" && editGuestIndex !== null) {
+        $app.components.page_data.store.guests[editGuestIndex] = data;
+      } else {
+        $app.components.page_data.store.guests.push(data);
+      }
+      addGuestItemListeners();
+      supaClient.functions
+        .invoke("get-rsvp-summary", { method: "GET" })
+        .then(({ data, error }) => {
+          data &&
+            Object.assign($app.components.page_data.store.guestsData, data);
+        });
+      setTimeout(() => {
+        resetForm();
+      }, 2500);
     }
-  })
-  const subBtn = document.getElementById('guest-dec');
-  subBtn.addEventListener('click', ()=>{
-   if(Number(store.fields.guestCount) > 1 ){// dont allow 0
-     store.fields.guestCount = String(Number(store.fields.guestCount) - 1);
-   }
-  })
-  
-  const rsvpFormBlock = document.getElementById('rsvp-form');
-  if ( rsvpFormBlock ) {
-  	rsvpFormBlock.querySelector('form').addEventListener('submit', rsvp);
+  } catch (err) {
+    console.error("Unexpected error:", err);
   }
+}
+
+const rsvpRadioBtns = document.querySelectorAll(
+  "input[type='radio'][data-name='rsvp']"
+);
+if (rsvpRadioBtns) {
+  rsvpRadioBtns.forEach((rsvpRadio) => {
+    rsvpRadio.addEventListener("change", (e) => {
+      $app.components.page_data.store.rsvpForm.fields.status = e.target.value;
+    });
+  });
+}
+
+const store = $app.components.page_data.store.rsvpForm;
+
+const addBtn = document.getElementById("guest-inc");
+addBtn.addEventListener("click", () => {
+  if (Number(store.fields.guestCount) < 5) {
+    // dont allow more then 5
+    store.fields.guestCount = String(Number(store.fields.guestCount) + 1);
+  }
+});
+const subBtn = document.getElementById("guest-dec");
+subBtn.addEventListener("click", () => {
+  if (Number(store.fields.guestCount) > 1) {
+    // dont allow 0
+    store.fields.guestCount = String(Number(store.fields.guestCount) - 1);
+  }
+});
+
+const rsvpFormBlock = document.getElementById("rsvp-form");
+if (rsvpFormBlock) {
+  rsvpFormBlock.querySelector("form").addEventListener("submit", rsvp);
+}
 
 //<!-- END OF Add RSVP form -->
 
 //<!--Export logic-->
 
-    const buttons = document.querySelectorAll('.export-button');
+const buttons = document.querySelectorAll(".export-button");
 
-    buttons.forEach(button => {
-    button.addEventListener('click',async  () => {
-    const providerId = button.getAttribute('provider');
-   //document.getElementById('export').addEventListener('click', async () => {
-  try {
-    const { data, error } = await supaClient.functions.invoke(`list-rsvp?format=csv&externalService=${providerId}`, {
-      method: 'GET'
-    });
+buttons.forEach((button) => {
+  button.addEventListener("click", async () => {
+    const providerId = button.getAttribute("provider");
+    //document.getElementById('export').addEventListener('click', async () => {
+    try {
+      const { data, error } = await supaClient.functions.invoke(
+        `list-rsvp?format=csv&externalService=${providerId}`,
+        {
+          method: "GET",
+        }
+      );
 
-    if (error) throw error;
+      if (error) throw error;
 
-    // Add UTF-8 BOM and RTL marks
-    const UTF8_BOM = '\uFEFF';
-    const RTL_MARK = '\u202E'; // Using RTL Override character
-    const LTR_MARK = '\u202C'; // Using Pop Directional Formatting
-    
-    // Process each line to force RTL
-    const lines = data.split('\n');
-    const rtlLines = lines.map(line => {
-      const columns = line.split(',');
-      // Add RTL mark to each cell and wrap with direction control
-      const rtlColumns = columns.map(cell => RTL_MARK + cell.trim() + LTR_MARK);
-      return rtlColumns.join(',');
-    });
-    
-    const csvContent = UTF8_BOM + rtlLines.join('\n');
-    
-    const blob = new Blob([csvContent], { 
-      type: 'text/csv;charset=utf-8-sig'
-    });
-    
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `rsvp-list-${new Date().toISOString().split('T')[0]}.csv`;
-    
-    document.body.appendChild(a);
-    a.click();
-    
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
-  } catch (error) {
-    console.error('Error downloading CSV:', error);
-  }
- });
+      // Add UTF-8 BOM and RTL marks
+      const UTF8_BOM = "\uFEFF";
+      const RTL_MARK = "\u202E"; // Using RTL Override character
+      const LTR_MARK = "\u202C"; // Using Pop Directional Formatting
+
+      // Process each line to force RTL
+      const lines = data.split("\n");
+      const rtlLines = lines.map((line) => {
+        const columns = line.split(",");
+        // Add RTL mark to each cell and wrap with direction control
+        const rtlColumns = columns.map(
+          (cell) => RTL_MARK + cell.trim() + LTR_MARK
+        );
+        return rtlColumns.join(",");
+      });
+
+      const csvContent = UTF8_BOM + rtlLines.join("\n");
+
+      const blob = new Blob([csvContent], {
+        type: "text/csv;charset=utf-8-sig",
+      });
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `rsvp-list-${new Date().toISOString().split("T")[0]}.csv`;
+
+      document.body.appendChild(a);
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+    }
+  });
 });
 
 //<!--End of Export logic-->
@@ -271,60 +287,57 @@ function updateSubmitButtonText() {
 //<!-- sidebars-->
 const fadeDuration = 300; // in ms
 function showSidebar(sidebar) {
-    setTimeout(()=>{
-    sidebar.style.display = 'flex';
-    sidebar.style.opacity = '1';
-    },400);
-  }
+  setTimeout(() => {
+    sidebar.style.display = "flex";
+    sidebar.style.opacity = "1";
+  }, 400);
+}
 
-  function hideSidebar(sidebar) {
-    sidebar.style.opacity = '0';
-    sidebar.style.transition = `opacity ${fadeDuration}ms`;
-    setTimeout(() => {
-      sidebar.style.display = 'none';
-    }, fadeDuration);
-  }
+function hideSidebar(sidebar) {
+  sidebar.style.opacity = "0";
+  sidebar.style.transition = `opacity ${fadeDuration}ms`;
+  setTimeout(() => {
+    sidebar.style.display = "none";
+  }, fadeDuration);
+}
 
-function clearRSVPForm(){
+function clearRSVPForm() {
   const store = $app.components.page_data.store.rsvpForm;
   store.fields.firstName = "";
-  store.fields.lastName  = "";
-  store.fields.phoneNumber  = "";
-  store.fields.guestCount  = "1";
-  rsvpMode = 'add';
+  store.fields.lastName = "";
+  store.fields.phoneNumber = "";
+  store.fields.guestCount = "1";
+  rsvpMode = "add";
   editGuestIndex = null;
   updateSubmitButtonText();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const exportSidebar = document.getElementById('export-sidebar');
-  const importSidebar = document.getElementById('import-sidebar');
+document.addEventListener("DOMContentLoaded", () => {
+  const exportSidebar = document.getElementById("export-sidebar");
+  const importSidebar = document.getElementById("import-sidebar");
 
-  const openExportBtn = document.getElementById('export');
-  const openImportBtn = document.getElementById('import');
+  const openExportBtn = document.getElementById("export");
+  const openImportBtn = document.getElementById("import");
 
-  const closeExportBtn = document.getElementById('close-export-btn');
-  const closeImportBtn = document.getElementById('close-import-btn');
+  const closeExportBtn = document.getElementById("close-export-btn");
+  const closeImportBtn = document.getElementById("close-import-btn");
 
-
- 
-
-  openExportBtn.addEventListener('click', () => {
+  openExportBtn.addEventListener("click", () => {
     hideSidebar(importSidebar);
     showSidebar(exportSidebar);
   });
 
-  openImportBtn.addEventListener('click', () => {
+  openImportBtn.addEventListener("click", () => {
     hideSidebar(exportSidebar);
     showSidebar(importSidebar);
   });
 
-  closeExportBtn.addEventListener('click', () => {
+  closeExportBtn.addEventListener("click", () => {
     clearRSVPForm();
     hideSidebar(exportSidebar);
   });
 
-  closeImportBtn.addEventListener('click', () => {
+  closeImportBtn.addEventListener("click", () => {
     clearRSVPForm();
     hideSidebar(importSidebar);
   });
@@ -332,10 +345,51 @@ document.addEventListener('DOMContentLoaded', () => {
   updateSubmitButtonText(); // Set initial button text
 });
 
+// window.addEventListener("DOMContentLoaded", () => {
+//   const addContacsBtn   = document.getElementById("add-contacts-btn");
+//   const addContacsPopup = document.getElementById("add-contacts-popup");
+//   const closeAddContacs = document.getElementById("close-add-contacts");
 
-//<!-- sidebar-->
+//   if(addContacsBtn && addContacsPopup && closeAddContacs){
+//     addContacsBtn.addEventListener("click", () => {
+//       addContacsPopup.style.display = "block";
 
+//     })
+//     closeAddContacs.addEventListener("click", () => {
+//       addContacsPopup.style.display = "none";
+//     })
+//   }
+// })
 
+window.addEventListener("DOMContentLoaded", () => {
+  const readyToSendBtn   = document.getElementById("send");
+  const readyToSendPopup = document.getElementById("ready-to-send-popup");
+  const closeReadyToSend = document.getElementById("cancel-ready");
+  const submitReadyToSend = document.getElementById("submit-ready-to-send");
+  
+  if(readyToSendBtn && readyToSendPopup && closeReadyToSend){
+    readyToSendBtn.addEventListener("click", () => {
+      readyToSendPopup.style.display = "block";
+    })
+    closeReadyToSend.addEventListener("click", () => {
+      readyToSendPopup.style.display = "none";
+    })
+    submitReadyToSend.addEventListener("click", async () => {
+      readyToSendPopup.style.display = "none";
+      const invitationId = $app.components.page_data.store.invitationId;
+      const { data: response, error } = await supaClient.functions.invoke(
+        "update-invitation-status",
+        { body: { status: "ready-to-send", invitationId: invitationId } }
+      );
+      if(error){
+        console.error("Error updating invitation status:", error);
+      } else {
+        console.log("Invitation status updated successfully:", response);
+        readyToSendPopup.style.display = "none";
+      }
+    });
+  }
+});
 
 /*
 const guestsList = {
@@ -384,26 +438,26 @@ addOnClickToElementsWithClass('price-button', handleSelectTemplateClick);
 // Add RSVP form preloading and guest item click logic
 function preloadRsvpForm(guest) {
   const store = $app.components.page_data.store.rsvpForm;
-  store.fields.firstName = guest.firstName || '';
-  store.fields.lastName = guest.lastName || '';
-  store.fields.phoneNumber = guest.phoneNumber || '';
-  store.fields.guestCount = guest.guestCount ? String(guest.guestCount) : '1';
-  store.fields.status = guest.status || '';
+  store.fields.firstName = guest.firstName || "";
+  store.fields.lastName = guest.lastName || "";
+  store.fields.phoneNumber = guest.phoneNumber || "";
+  store.fields.guestCount = guest.guestCount ? String(guest.guestCount) : "1";
+  store.fields.status = guest.status || "";
 }
 
 function addGuestItemListeners() {
-    const importbtn = document.getElementById('import');
-    setTimeout(() => {
-      const guestItems = document.querySelectorAll('.stacked-list1_item');
-      guestItems.forEach((item, idx) => {
-        item.onclick = () => {
-          const guest = $app.components.page_data.store.guests[idx -1];
-          preloadRsvpForm(guest);
-          rsvpMode = 'edit';
-          editGuestIndex = idx - 1;
-          updateSubmitButtonText();
-          importbtn.click();
-        };
-      });
-    }, 100);
+  const importbtn = document.getElementById("import");
+  setTimeout(() => {
+    const guestItems = document.querySelectorAll(".stacked-list1_item");
+    guestItems.forEach((item, idx) => {
+      item.onclick = () => {
+        const guest = $app.components.page_data.store.guests[idx - 1];
+        preloadRsvpForm(guest);
+        rsvpMode = "edit";
+        editGuestIndex = idx - 1;
+        updateSubmitButtonText();
+        importbtn.click();
+      };
+    });
+  }, 100);
 }
