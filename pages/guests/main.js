@@ -39,8 +39,9 @@ supaClient.auth.getUser().then(({ data, error }) => {
       user_metadata.isPublished &&
       !!user_metadata.isPaying
     ) {
-      //stay
       $app.components.page_data.store.invitationId = user_metadata.invitationId;
+      console.log("invitationId", $app.components.page_data.store.invitationId);
+      //stay
     } else if (
       user_metadata &&
       user_metadata.isPublished &&
