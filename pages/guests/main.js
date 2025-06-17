@@ -375,7 +375,9 @@ window.addEventListener("DOMContentLoaded", () => {
     closeReadyToSend.addEventListener("click", () => {
       readyToSendPopup.style.display = "none";
     })
-    submitReadyToSend.addEventListener("click", async () => {
+    submitReadyToSend.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
       readyToSendPopup.style.display = "none";
       const invitationId = $app.components.page_data.store.invitationId;
       const { data: response, error } = await supaClient.functions.invoke(
