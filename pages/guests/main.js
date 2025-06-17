@@ -406,49 +406,17 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/*
-const guestsList = {
-  fields: {
-    fullName: '',
-    email: '',
-    password: ''
-  },
-  error: ''
-};
-$app.createComponent('signup_form', formData).mount('#sign-up-form');
-
-async function handleSelectTemplateClick(event) {
-	event.preventDefault();
-
-  if(!event.currentTarget.id) {
-    console.error('No template slug provided', event.currentTarget);
-    return;
-  }
-  
-  const templateSlug = event.currentTarget.id;
-
-  await supaClient.auth.getSession().then(async ({ data, error }) => {
-  	if (error || !data || !data.session) {
-      const { data, error } = await supaClient.auth.signInAnonymously();
-      console.log('Anonymous sign in', data)
-    }
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById('search').addEventListener('input', function () {
+    const query = this.value;
+    const guests = $app.components.page_data.store.guests;
+    const filteredGuests = guests.filter(guest => {
+      return guest.firstName.includes(query) || guest.lastName.includes(query) || guest.phoneNumber.includes(query);
+    });
+   $app.components.page_data.store.guests = filteredGuests;
   });
-    
-  const { data, error } = await supaClient.functions.invoke('select-template', {
-    body: JSON.stringify({ selectedTemplate: templateSlug })
-  })
   
-  if (!error) {
-  	console.log(data);
-
-		window.location.href = `/template/${templateSlug}`;
-  } else {
-  	console.log(error);
-  }
-}
-
-addOnClickToElementsWithClass('price-button', handleSelectTemplateClick);
-*/
+})
 
 // Add RSVP form preloading and guest item click logic
 function preloadRsvpForm(guest) {
