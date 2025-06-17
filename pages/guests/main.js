@@ -378,18 +378,30 @@ window.addEventListener("DOMContentLoaded", () => {
     submitReadyToSend.addEventListener("click", async (e) => {
       e.preventDefault();
       e.stopImmediatePropagation();
-      readyToSendPopup.style.display = "none";
+      // Disable button and show loading state
+      submitReadyToSend.disabled = true;
+      submitReadyToSend.textContent = "רק שנייה...";
+
+      // Wait for response
       const invitationId = $app.components.page_data.store.invitationId;
       const { data: response, error } = await supaClient.functions.invoke(
         "update-invitation-status",
         { body: { status: "ready-to-send", invitationId: invitationId } }
       );
-      if(error){
+
+      if(error) {
         console.error("Error updating invitation status:", error);
-      } else {
-        console.log("Invitation status updated successfully:", response);
-        readyToSendPopup.style.display = "none";
+        submitReadyToSend.disabled = false;
+        submitReadyToSend.textContent = "נסו שוב";
+        return;
       }
+
+      // Show success state
+      submitReadyToSend.textContent = "סיימנו, מדהים!";
+      
+      // Wait 2 seconds before closing
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      readyToSendPopup.style.display = "none";
     });
   }
 });
