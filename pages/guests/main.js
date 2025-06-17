@@ -26,6 +26,7 @@ const pageData = {
     error: "",
   },
   invitationId: "",
+  allGuests: [],
 };
 $app.createComponent("page_data", pageData).mount("#guests-page");
 
@@ -62,6 +63,7 @@ supaClient.functions
   .then(({ data, error }) => {
     $app.components.page_data.store.showLoading = false;
     if (data && data.length > 0) {
+      $app.components.page_data.store.allGuests = data;
       $app.components.page_data.store.guests = data;
       addGuestItemListeners();
     }
@@ -408,15 +410,24 @@ window.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("DOMContentLoaded", () => {
   document.getElementById('search').addEventListener('input', function () {
-    const query = this.value;
-    const guests = $app.components.page_data.store.guests;
-    const filteredGuests = guests.filter(guest => {
-      return guest.firstName.includes(query) || guest.lastName.includes(query) || guest.phoneNumber.includes(query);
-    });
-   $app.components.page_data.store.guests = filteredGuests;
+    const query = this.value.trim();
+    const allGuests = $app.components.page_data.store.allGuests || [];
+    if (query === "") {
+      // Restore full list
+      $app.components.page_data.store.guests = allGuests;
+    } else {
+      const filteredGuests = allGuests.filter(guest => {
+        return (
+          (guest.firstName && guest.firstName.includes(query)) ||
+          (guest.lastName && guest.lastName.includes(query)) ||
+          (guest.phoneNumber && guest.phoneNumber.includes(query))
+        );
+      });
+      $app.components.page_data.store.guests = filteredGuests;
+    }
+    addGuestItemListeners(); // re-attach listeners after filtering
   });
-  
-})
+});
 
 // Add RSVP form preloading and guest item click logic
 function preloadRsvpForm(guest) {
