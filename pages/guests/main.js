@@ -410,7 +410,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("DOMContentLoaded", () => {
   document.getElementById('search').addEventListener('input', function () {
-    const query = this.value.trim();
+    const query = this.value.toLowerCase().trim();
     const allGuests = $app.components.page_data.store.allGuests || [];
     if (query === "") {
       // Restore full list
@@ -418,14 +418,28 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       const filteredGuests = allGuests.filter(guest => {
         return (
-          (guest.firstName && guest.firstName.includes(query)) ||
-          (guest.lastName && guest.lastName.includes(query)) ||
+          (guest.firstName && guest.firstName.toLowerCase().includes(query)) ||
+          (guest.lastName && guest.lastName.toLowerCase().includes(query)) ||
           (guest.phoneNumber && guest.phoneNumber.includes(query))
         );
       });
       $app.components.page_data.store.guests = filteredGuests;
     }
     addGuestItemListeners(); // re-attach listeners after filtering
+  });
+
+
+  document.getElementById("filter").addEventListener("change", function () {
+    const selectedStatus = this.value;
+  
+    // If "undefined" is selected (default), show all guests
+    const filteredGuests =
+      selectedStatus === "undefined"
+        ? $app.components.page_data.store.allGuests
+        : $app.components.page_data.store.allGuests.filter(guest => guest.status.toString() === selectedStatus);
+    
+    $app.components.page_data.store.guests = filteredGuests;
+    addGuestItemListeners();
   });
 });
 
