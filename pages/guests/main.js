@@ -380,7 +380,7 @@ window.addEventListener("DOMContentLoaded", () => {
       e.stopImmediatePropagation();
       // Disable button and show loading state
       submitReadyToSend.disabled = true;
-      submitReadyToSend.textContent = "רק שנייה...";
+      submitReadyToSend.value = "רק שנייה...";
 
       // Wait for response
       const invitationId = $app.components.page_data.store.invitationId;
@@ -392,12 +392,12 @@ window.addEventListener("DOMContentLoaded", () => {
       if(error) {
         console.error("Error updating invitation status:", error);
         submitReadyToSend.disabled = false;
-        submitReadyToSend.textContent = "נסו שוב";
+        submitReadyToSend.value = "נסו שוב";
         return;
       }
 
       // Show success state
-      submitReadyToSend.textContent = "סיימנו, מדהים!";
+      submitReadyToSend.value = "סיימנו, מדהים!";
       
       // Wait 2 seconds before closing
       await new Promise(resolve => setTimeout(resolve, 2000));
