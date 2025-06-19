@@ -252,8 +252,7 @@ function updateWhatsAppImage(imageUrl) {
   }
 }
 
-async function saveAndRefreash(e, {preventDefault = false} = {}) {
-  console.log("saveAndRefreash");
+async function saveAndRefreash(e, {preventDefault = true} = {}) {
   if (preventDefault) {
     e.preventDefault();
     e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
@@ -515,7 +514,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
   const viewChangesBtn = document.getElementById("view-changes-btn");
-  viewChangesBtn.addEventListener("click", (e) => saveAndRefreash(e, {preventDefault: true}));
+  viewChangesBtn.addEventListener("click", (e) => saveAndRefreash(e, {preventDefault: false}));
 });
 
 document.addEventListener("DOMContentLoaded", () => {
