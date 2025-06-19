@@ -252,10 +252,12 @@ function updateWhatsAppImage(imageUrl) {
   }
 }
 
-async function saveAndRefreash(e) {
+async function saveAndRefreash(e, {preventDefault = false} = {}) {
   console.log("saveAndRefreash");
-  e.preventDefault();
-  e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
+  if (preventDefault) {
+    e.preventDefault();
+    e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
+  }
 
   const form = document.querySelector("#Invite-details-form");
   const formData = new FormData(form);
@@ -513,7 +515,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
   const viewChangesBtn = document.getElementById("view-changes-btn");
-  viewChangesBtn.addEventListener("click", (e) => saveAndRefreash(e));
+  viewChangesBtn.addEventListener("click", (e) => saveAndRefreash(e, {preventDefault: true}));
 });
 
 document.addEventListener("DOMContentLoaded", () => {
