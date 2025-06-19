@@ -409,37 +409,42 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-  document.getElementById('search').addEventListener('input', function () {
-    const query = this.value.toLowerCase().trim();
+  let currentSearchQuery = '';
+  let currentFilterStatus = 'undefined';
+
+  function applyFiltersAndSearch() {
     const allGuests = $app.components.page_data.store.allGuests || [];
-    if (query === "") {
-      // Restore full list
-      $app.components.page_data.store.guests = allGuests;
-    } else {
-      const filteredGuests = allGuests.filter(guest => {
+    let filteredGuests = [...allGuests];
+
+    // Apply search if exists
+    if (currentSearchQuery !== '') {
+      filteredGuests = filteredGuests.filter(guest => {
         return (
-          (guest.firstName && guest.firstName.toLowerCase().includes(query)) ||
-          (guest.lastName && guest.lastName.toLowerCase().includes(query)) ||
-          (guest.phoneNumber && guest.phoneNumber.includes(query))
+          (guest.firstName && guest.firstName.toLowerCase().includes(currentSearchQuery)) ||
+          (guest.lastName && guest.lastName.toLowerCase().includes(currentSearchQuery)) ||
+          (guest.phoneNumber && guest.phoneNumber.includes(currentSearchQuery))
         );
       });
-      $app.components.page_data.store.guests = filteredGuests;
     }
-    addGuestItemListeners(); // re-attach listeners after filtering
-  });
 
+    // Apply status filter if not default
+    if (currentFilterStatus !== 'undefined') {
+      filteredGuests = filteredGuests.filter(guest => guest.status.toString() === currentFilterStatus);
+    }
 
-  document.getElementById("filter").addEventListener("change", function () {
-    const selectedStatus = this.value;
-  
-    // If "undefined" is selected (default), show all guests
-    const filteredGuests =
-      selectedStatus === "undefined"
-        ? $app.components.page_data.store.allGuests
-        : $app.components.page_data.store.allGuests.filter(guest => guest.status.toString() === selectedStatus);
-    
+    // Update displayed guests
     $app.components.page_data.store.guests = filteredGuests;
     addGuestItemListeners();
+  }
+
+  document.getElementById('search').addEventListener('input', function () {
+    currentSearchQuery = this.value.toLowerCase().trim();
+    applyFiltersAndSearch();
+  });
+
+  document.getElementById("filter").addEventListener("change", function () {
+    currentFilterStatus = this.value;
+    applyFiltersAndSearch();
   });
 });
 
