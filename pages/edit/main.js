@@ -510,6 +510,10 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
+
+  const viewChangesBtn = document.getElementById("view-changes-btn");
+  viewChangesBtn.addEventListener("click", (e) => saveAndRefreash(e));
 });
 
 document.addEventListener("DOMContentLoaded", () => {
