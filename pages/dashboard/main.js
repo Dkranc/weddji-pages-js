@@ -244,6 +244,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const googlePopup = document.getElementById("google-contacts");
   const icloudButton = document.getElementById("icloud-btn");
   const icloudPopup = document.getElementById("icloud-contacts");
+  const googleClose = document.getElementById("google-close");
+  const icloudClose = document.getElementById("icloud-close");
 
   googleButton.addEventListener("click", () => {
     googlePopup.style.display = "block";
@@ -253,6 +255,14 @@ window.addEventListener("DOMContentLoaded", () => {
   icloudButton.addEventListener("click", () => {
     icloudPopup.style.display = "block";
     addContactsPopup.style.display = "none";
+  })
+
+  googleClose.addEventListener("click", () => {
+    googlePopup.style.display = "none";
+  })
+
+  icloudClose.addEventListener("click", () => {
+    icloudPopup.style.display = "none";
   })
 })
 
