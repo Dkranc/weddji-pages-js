@@ -312,6 +312,15 @@ function clearRSVPForm() {
   store.fields.guestCount = "1";
   rsvpMode = "add";
   editGuestIndex = null;
+
+  const rsvpRadioBtns = document.querySelectorAll("input[type='radio'][data-name='rsvp']");
+  rsvpRadioBtns.forEach(radio => {
+    const neighborDiv = radio.previousElementSibling;
+    if (neighborDiv) {
+      neighborDiv.classList.remove('w--redirected-checked');
+    }
+  });
+
   updateSubmitButtonText();
 }
 
