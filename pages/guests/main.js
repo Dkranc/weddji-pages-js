@@ -455,7 +455,15 @@ function preloadRsvpForm(guest) {
   store.fields.lastName = guest.lastName || "";
   store.fields.phoneNumber = guest.phoneNumber || "";
   store.fields.guestCount = guest.guestCount ? String(guest.guestCount) : "1";
-  store.fields.status = guest.status || "";
+  
+  const guestStatus = guest.status !== null && guest.status !== undefined ? String(guest.status) : "";
+  store.fields.status = guestStatus;
+
+  // Update the radio buttons to reflect the guest's status
+  const rsvpRadioBtns = document.querySelectorAll("input[type='radio'][name='rsvp']");
+  rsvpRadioBtns.forEach(radio => {
+    radio.checked = radio.value === guestStatus;
+  });
 }
 
 function addGuestItemListeners() {
