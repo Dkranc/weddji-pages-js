@@ -460,9 +460,13 @@ function preloadRsvpForm(guest) {
   store.fields.status = guestStatus;
 
   // Update the radio buttons to reflect the guest's status
-  const rsvpRadioBtns = document.querySelectorAll("input[type='radio'][name='rsvp']");
+  const rsvpRadioBtns = document.querySelectorAll("input[type='radio'][data-name='rsvp']");
   rsvpRadioBtns.forEach(radio => {
     radio.checked = radio.value === guestStatus;
+    const neighborDiv = radio.previousElementSibling;
+    if (neighborDiv && radio.checked) {
+      neighborDiv.classList.add('w--redirected-checked');
+    }
   });
 }
 
