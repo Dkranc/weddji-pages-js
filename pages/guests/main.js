@@ -457,8 +457,24 @@ window.addEventListener("DOMContentLoaded", () => {
     applyFiltersAndSearch();
   });
 
-
 });
+
+function fadeIn(elementId) {
+  const el = document.getElementById(elementId);
+  el.style.display = 'block';
+  requestAnimationFrame(() => {
+    el.classList.add('visible');
+  });
+}
+
+function fadeOut(elementId) {
+  const el = document.getElementById(elementId);
+  el.classList.remove('visible');
+  el.addEventListener('transitionend', function handleFadeOut() {
+    el.style.display = 'none';
+    el.removeEventListener('transitionend', handleFadeOut);
+  });
+}
 
 const deleteGuest = async () => {
   const guestId = $app.components.page_data.store.deleteGuestId;
@@ -466,6 +482,12 @@ const deleteGuest = async () => {
   if (error) {
     console.error("Error deleting guest:", error);
   }
+  fadeOut('delete-guest-popup');
+  //TODO: add confirmation msg 
+
+  //cleanup UI after deletion
+  $app.components.page_data.store.guests = $app.components.page_data.store.guests.filter(guest => guest.id !== guestId);
+  $app.components.page_data.store.allGuests = $app.components.page_data.store.allGuests.filter(guest => guest.id !== guestId);
 }
 
 // Add RSVP form preloading and guest item click logic
@@ -516,7 +538,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById('delete-button-open').addEventListener('click', () => {
-    document.getElementById('delete-guest-popup').style.display = 'block';
+      fadeIn('delete-guest-popup');
   });
 
   document.getElementById("delete-confirm").addEventListener("click", deleteGuest);
