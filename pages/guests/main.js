@@ -457,6 +457,14 @@ window.addEventListener("DOMContentLoaded", () => {
     applyFiltersAndSearch();
   });
 
+  const cancelDelete = document.getElementById('cancel-delete');
+  cancelDelete.addEventListener('click', () => {
+    document.getElementById('delete-guest-popup').style.display = 'none';
+  });
+
+  document.getElementById('delete-button-open').addEventListener('click', () => {
+    document.getElementById('delete-guest-popup').style.display = 'block';
+  });
 
   document.getElementById("delete-confirm").addEventListener("click", deleteGuest);
 });
