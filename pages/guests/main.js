@@ -25,6 +25,7 @@ const pageData = {
     },
     error: "",
   },
+  deleteGuestId: "",
   invitationId: "",
   allGuests: [],
 };
@@ -455,7 +456,18 @@ window.addEventListener("DOMContentLoaded", () => {
     currentFilterStatus = this.value;
     applyFiltersAndSearch();
   });
+
+
+  document.getElementById("delete-confirm").addEventListener("click", deleteGuest);
 });
+
+const deleteGuest = async () => {
+  const guestId = $app.components.page_data.store.deleteGuestId;
+  const { data, error } = await supaClient.functions.invoke("delete-rsvp", { body: { rsvpId: guestId } });
+  if (error) {
+    console.error("Error deleting guest:", error);
+  }
+}
 
 // Add RSVP form preloading and guest item click logic
 function preloadRsvpForm(guest) {
@@ -486,6 +498,7 @@ function addGuestItemListeners() {
     guestItems.forEach((item, idx) => {
       item.onclick = () => {
         const guest = $app.components.page_data.store.guests[idx - 1];
+        $app.components.page_data.store.deleteGuestId = guest.id;
         preloadRsvpForm(guest);
         rsvpMode = "edit";
         editGuestIndex = idx - 1;
