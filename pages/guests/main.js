@@ -474,10 +474,6 @@ function fadeOut(elementId) {
     el.style.display = 'none';
     el.removeEventListener('transitionend', handleFadeOut);
   });
-
-  document.querySelector('.side-menu-background').style.transform =
-  'translate3d(-165%, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(-7deg) skew(0deg, 0deg)';
-
 }
 
 const deleteGuest = async () => {
@@ -496,6 +492,10 @@ const deleteGuest = async () => {
   const importSidebar = document.getElementById("import-sidebar");
   clearRSVPForm();
   hideSidebar(importSidebar);
+
+  document.querySelector('.side-menu-background').style.transform =
+  'translate3d(-165%, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(-7deg) skew(0deg, 0deg)';
+
 }
 
 // Add RSVP form preloading and guest item click logic
