@@ -218,9 +218,8 @@ async function getGuestWishes() {
       if (error) throw error;
   
       if (data) {
-        const store = $app.components.rsvp_form.store;
-        console.log("store", store);
-        store.wishes = data;
+        console.log("data", data);
+        $app.components.rsvp_form.store.wishes = data;
       }
     } catch (err) {
       console.error("Error fetching guest wishes:", err.message);
