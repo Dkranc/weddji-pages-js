@@ -230,8 +230,9 @@ async function getGuestWishes() {
 
 async function submitWishes(e) {
     e.preventDefault();
-    const fullName = $app.components.rsvp_form.store.wishForm.fullName;
-    const wishDescription = $app.components.rsvp_form.store.wishForm.desc;
+    const store = $app.components.rsvp_form.store;
+    const fullName = store.wishForm.fullName;
+    const wishDescription = store.wishForm.desc;
     const templateSlug = window.location.pathname.split('/')[1];
     const invitationSlug = window.location.pathname.split('/')[2];
     const data = {
