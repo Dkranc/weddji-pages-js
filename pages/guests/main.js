@@ -488,6 +488,10 @@ const deleteGuest = async () => {
   //cleanup UI after deletion
   $app.components.page_data.store.guests = $app.components.page_data.store.guests.filter(guest => guest.id !== guestId);
   $app.components.page_data.store.allGuests = $app.components.page_data.store.allGuests.filter(guest => guest.id !== guestId);
+
+  const importSidebar = document.getElementById("import-sidebar");
+  clearRSVPForm();
+  hideSidebar(importSidebar);
 }
 
 // Add RSVP form preloading and guest item click logic
@@ -534,7 +538,7 @@ function addGuestItemListeners() {
 window.addEventListener("DOMContentLoaded", () => {
   const cancelDelete = document.getElementById('cancel-delete');
   cancelDelete.addEventListener('click', () => {
-    document.getElementById('delete-guest-popup').style.display = 'none';
+    fadeOut('delete-guest-popup');
   });
 
   document.getElementById('delete-button-open').addEventListener('click', () => {
