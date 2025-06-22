@@ -135,14 +135,25 @@ document.addEventListener('click', function (e) {
       guestCount: '1',
       status: '',
     },
-    wishForm: {
-      fullName: '',
-      desc: '',
-    },
-    wishes: [],
     error: ''
   };
+
+  const wishFormData = {
+    wishForm: {
+        fullName: '',
+        desc: '',
+      }
+  }
+
+  const wishesData = {
+    wishes: []
+  }
   $app.createComponent('rsvp_form', formData).mount('#rsvp-form');
+
+  $app.createComponent('wish-form', wishFormData).mount('#wish-form');
+  $app.createComponent('wishes-list', wishesData).mount('#wishes-list');
+
+
   
   async function rsvp(e) {
     e.preventDefault(); 
