@@ -150,8 +150,8 @@ document.addEventListener('click', function (e) {
   }
   $app.createComponent('rsvp_form', formData).mount('#rsvp-form');
 
-  $app.createComponent('wish-form', wishFormData).mount('#wish-form');
-  $app.createComponent('wishes-list', wishesData).mount('#wishes-list');
+  $app.createComponent('wish_form', wishFormData).mount('#wish-form');
+  $app.createComponent('wishes_list', wishesData).mount('#wishes-list');
 
 
   
@@ -230,7 +230,7 @@ async function getGuestWishes() {
   
       if (data) {
         console.log("data", data);
-        $app.components.rsvp_form.store.wishes = data;
+        $app.components.wishes_list.store.wishes = data;
       }
     } catch (err) {
       console.error("Error fetching guest wishes:", err.message);
@@ -240,7 +240,7 @@ async function getGuestWishes() {
 
 async function submitWishes(e) {
     e.preventDefault();
-    const store = $app.components.rsvp_form.store;
+    const store = $app.components.wish_form.store;
     const fullName = store.wishForm.fullName;
     const wishDescription = store.wishForm.desc;
     const templateSlug = window.location.pathname.split('/')[1];
