@@ -150,7 +150,7 @@ document.addEventListener('click', function (e) {
   }
   $app.createComponent('rsvp_form', formData).mount('#rsvp-form');
 
-  $app.createComponent('wish_form', wishFormData).mount('#wish-form');
+  $app.createComponent('wish_form', wishFormData).mount('#wf-form-Wishes-Form');
   $app.createComponent('wishes_list', wishesData).mount('#wishes-list');
 
 
