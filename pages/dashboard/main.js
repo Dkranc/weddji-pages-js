@@ -2,7 +2,6 @@
 //to update cdn visit : https://purge.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/dashboard/main.js
 
 // Populate page data -->
-import "./../../shared/add-contacts/popup-logic.js";
 const pageData = {
   inviteLink: "",
   eventDate: "",

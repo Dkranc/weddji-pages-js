@@ -2,7 +2,6 @@
 //to update cdn visit : https://purge.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/guests/main.js
 
 //<!-- populate page guests logic -->
-import "./../../shared/add-contacts/popup-logic.js";
 
 const pageData = {
   showLoading: true,
