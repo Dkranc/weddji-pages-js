@@ -2,6 +2,7 @@
 //to update cdn visit : https://purge.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/guests/main.js
 
 //<!-- populate page guests logic -->
+import "./../../shared/add-contacts/popup-logic.js";
 
 const pageData = {
   showLoading: true,
@@ -358,21 +359,6 @@ document.addEventListener("DOMContentLoaded", () => {
   updateSubmitButtonText(); // Set initial button text
 });
 
-// window.addEventListener("DOMContentLoaded", () => {
-//   const addContacsBtn   = document.getElementById("add-contacts-btn");
-//   const addContacsPopup = document.getElementById("add-contacts-popup");
-//   const closeAddContacs = document.getElementById("close-add-contacts");
-
-//   if(addContacsBtn && addContacsPopup && closeAddContacs){
-//     addContacsBtn.addEventListener("click", () => {
-//       addContacsPopup.style.display = "block";
-
-//     })
-//     closeAddContacs.addEventListener("click", () => {
-//       addContacsPopup.style.display = "none";
-//     })
-//   }
-// })
 
 window.addEventListener("DOMContentLoaded", () => {
   const readyToSendBtn   = document.getElementById("send");
