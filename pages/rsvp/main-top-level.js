@@ -310,6 +310,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       const imageUrl = urlData.publicUrl;
 
       // Save the image URL in a hidden input for later form submission
+
       document.getElementById("uploaded-image-url").value = imageUrl;
 
       // Show preview
@@ -318,4 +319,14 @@ window.addEventListener("DOMContentLoaded", async () => {
       );
       previewContainer.innerHTML = `<img src="${imageUrl}" style="width:100px;height:auto;border-radius:6px;margin-top:8px;" />`;
     });
+
+    //update file name display
+    document.getElementById('image-upload-input').addEventListener('change', function () {
+        const fileNameDisplay = document.getElementById('file-name-display');
+        if (this.files.length > 0) {
+          fileNameDisplay.textContent = this.files[0].name;
+        } else {
+          fileNameDisplay.textContent = 'עוד לא בחרתם קובץ';
+        }
+      });
 });
