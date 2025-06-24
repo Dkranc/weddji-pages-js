@@ -235,8 +235,14 @@ async function getGuestWishes() {
     if (error) throw error;
 
     if (data) {
-      console.log("data", data);
       $app.components.wishes_list.store.wishes = data;
+
+      const images = document.querySelectorAll(".wish-image");
+      images.forEach((image, index) => {
+        if (data[index].image) {
+          image.src = data[index].image;
+        }
+      });
     }
   } catch (err) {
     console.error("Error fetching guest wishes:", err.message);
