@@ -154,10 +154,11 @@ const wishesData = {
 $app.createComponent("rsvp_form", formData).mount("#rsvp-form");
 
 const wishDiv = document.getElementById("wf-form-Wishes-Form");
-if (wishDiv) {
+const wishesListDiv = document.getElementById("wishes-list");
+if (wishDiv && wishesListDiv) {
   $app.createComponent("wish_form", wishFormData).mount("#wf-form-Wishes-Form");
+  $app.createComponent("wishes_list", wishesData).mount("#wishes-list");
 }
-$app.createComponent("wishes_list", wishesData).mount("#wishes-list");
 
 async function rsvp(e) {
   e.preventDefault();
