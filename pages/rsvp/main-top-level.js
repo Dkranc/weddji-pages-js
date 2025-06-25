@@ -238,7 +238,7 @@ async function getGuestWishes() {
 
     if (error) throw error;
 
-    if (data) {
+    if (data && data.length > 0) {
       $app.components.wishes_list.store.wishes = data;
 
       const images = document.querySelectorAll(".wish-image");
@@ -290,9 +290,10 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   //upload with functionality
-  document
-    .getElementById("image-upload-input")
-    .addEventListener("change", async (event) => {
+  const imageUploadInput = document
+    .getElementById("image-upload-input");
+  if (imageUploadInput) {
+    imageUploadInput.addEventListener("change", async (event) => {
       const file = event.target.files[0];
       if (!file) return;
 
@@ -339,4 +340,5 @@ window.addEventListener("DOMContentLoaded", async () => {
           fileNameDisplay.textContent = 'עוד לא בחרתם קובץ';
         }
       });
+  }
 });
