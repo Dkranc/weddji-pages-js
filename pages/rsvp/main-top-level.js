@@ -238,7 +238,7 @@ async function getGuestWishes() {
       $app.components.wishes_list.store.wishes = data;
 
       const images = document.querySelectorAll(".wish-image");
-      images.forEach((image, index) => {
+      images?.forEach((image, index) => {
         if (data[index].image) {
           image.src = data[index].image;
         }
@@ -280,10 +280,10 @@ async function submitWishes(e) {
 window.addEventListener("DOMContentLoaded", async () => {
   await getGuestWishes();
 
-  const wishesForm = document.getElementById("wf-form-Wishes-Form");
-  if (wishesForm) {
-    wishesForm.addEventListener("submit", submitWishes);
-  }
+//   const wishesForm = document.getElementById("wf-form-Wishes-Form");
+//   if (wishesForm) {
+//     wishesForm.addEventListener("submit", submitWishes);
+//   }
 
   //upload with functionality
   document
