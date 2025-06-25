@@ -153,7 +153,10 @@ const wishesData = {
 };
 $app.createComponent("rsvp_form", formData).mount("#rsvp-form");
 
-$app.createComponent("wish_form", wishFormData).mount("#wf-form-Wishes-Form");
+const wishDiv = document.getElementById("wf-form-Wishes-Form");
+if (wishDiv) {
+  $app.createComponent("wish_form", wishFormData).mount("#wf-form-Wishes-Form");
+}
 $app.createComponent("wishes_list", wishesData).mount("#wishes-list");
 
 async function rsvp(e) {
@@ -280,10 +283,10 @@ async function submitWishes(e) {
 window.addEventListener("DOMContentLoaded", async () => {
   await getGuestWishes();
 
-//   const wishesForm = document.getElementById("wf-form-Wishes-Form");
-//   if (wishesForm) {
-//     wishesForm.addEventListener("submit", submitWishes);
-//   }
+  const wishesForm = document.getElementById("wf-form-Wishes-Form");
+  if (wishesForm) {
+    wishesForm.addEventListener("submit", submitWishes);
+  }
 
   //upload with functionality
   document
