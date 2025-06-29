@@ -5,7 +5,7 @@ window.addEventListener("DOMContentLoaded", function () {
   
     if (button && popup && close) {
       button.addEventListener("click", function () {
-        popup.style.display = "block";
+        popup.style.display = "flex";
       });
       close.addEventListener("click", function () {
         popup.style.display = "none";
@@ -25,12 +25,12 @@ window.addEventListener("DOMContentLoaded", () => {
     const icloudClose = document.getElementById("icloud-close");
   
     googleButton.addEventListener("click", () => {
-      googlePopup.style.display = "block";
+      googlePopup.style.display = "flex";
       addContactsPopup.style.display = "none";
     })
   
     icloudButton.addEventListener("click", () => {
-      icloudPopup.style.display = "block";
+      icloudPopup.style.display = "flex";
       addContactsPopup.style.display = "none";
     })
   
