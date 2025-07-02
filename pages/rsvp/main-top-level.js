@@ -284,7 +284,7 @@ async function submitWishes(e) {
 window.addEventListener("DOMContentLoaded", async () => {
   await getGuestWishes();
 
-  const wishesForm = document.getElementById("wf-form-Wishes-Form");
+  const wishesForm = document.getElementById("wf-form-Wishes-Form") || document.querySelector('.contact-modal1_form');
   if (wishesForm) {
     wishesForm.addEventListener("submit", submitWishes);
   }
