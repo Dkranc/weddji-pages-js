@@ -246,7 +246,7 @@ async function getGuestWishes() {
       const wishes = $app.components.page_data.store.wishes || [];
       const images = document.querySelectorAll(".wish-image");
       images.forEach((image) => {
-        const wishId = el?.textContent.trim();
+        const wishId = image?.textContent.trim();
         const wishData = wishes.find(wish => String(wish.id) === String(wishId));
         if (wishData && wishData.image) {
           image.src = wishData.image;
