@@ -153,11 +153,11 @@ const wishesData = {
 };
 $app.createComponent("rsvp_form", formData).mount("#rsvp-form");
 
-const wishDiv = document.getElementById("wf-form-Wishes-Form");
+const wishDiv = document.getElementById("wf-form-Wishes-Form") || document.querySelector('wish-form-level-2');
 const wishesListDiv = document.getElementById("wishes-list");
 if (wishDiv && wishesListDiv) {
-  $app.createComponent("wish_form", wishFormData).mount("#wf-form-Wishes-Form");
-  $app.createComponent("wishes_list", wishesData).mount("#wishes-list");
+  $app.createComponent("wish_form", wishFormData).mount(wishDiv);
+  $app.createComponent("wishes_list", wishesData).mount(wishesListDiv);
 }
 
 async function rsvp(e) {
@@ -284,7 +284,7 @@ async function submitWishes(e) {
 window.addEventListener("DOMContentLoaded", async () => {
   await getGuestWishes();
 
-  const wishesForm = document.getElementById("wf-form-Wishes-Form") || document.querySelector('.contact-modal1_form');
+  const wishesForm = document.getElementById("wf-form-Wishes-Form") || document.querySelector('wish-form-level-2');
   if (wishesForm) {
     wishesForm.addEventListener("submit", submitWishes);
   }
