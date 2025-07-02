@@ -242,12 +242,10 @@ async function getGuestWishes() {
 
     if (data && data.length > 0) {
       $app.components.wishes_list.store.wishes = data;
-
-      const wishes = $app.components.page_data.store.wishes || [];
       const images = document.querySelectorAll(".wish-image");
       images.forEach((image) => {
         const wishId = image?.textContent.trim();
-        const wishData = wishes.find(wish => String(wish.id) === String(wishId));
+        const wishData = data.find(wish => String(wish.id) === String(wishId));
         if (wishData && wishData.image) {
           image.src = wishData.image;
         }
