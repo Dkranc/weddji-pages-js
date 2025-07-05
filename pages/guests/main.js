@@ -444,22 +444,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
 });
 
-function fadeIn(elementId) {
-  const el = document.getElementById(elementId);
-  el.style.display = 'block';
-  requestAnimationFrame(() => {
-    el.classList.add('visible');
-  });
-}
-
-function fadeOut(elementId) {
-  const el = document.getElementById(elementId);
-  el.classList.remove('visible');
-  el.addEventListener('transitionend', function handleFadeOut() {
-    el.style.display = 'none';
-    el.removeEventListener('transitionend', handleFadeOut);
-  });
-}
 
 const deleteGuest = async () => {
   const guestId = $app.components.page_data.store.deleteGuestId;
@@ -467,8 +451,8 @@ const deleteGuest = async () => {
   if (error) {
     console.error("Error deleting guest:", error);
   }
-  fadeOut('delete-guest-popup');
-  //TODO: add confirmation msg 
+  fadeOut(document.getElementById('delete-guest-popup'));
+
 
   //cleanup UI after deletion
   $app.components.page_data.store.guests = $app.components.page_data.store.guests.filter(guest => guest.id !== guestId);
@@ -527,11 +511,11 @@ function addGuestItemListeners() {
 window.addEventListener("DOMContentLoaded", () => {
   const cancelDelete = document.getElementById('cancel-delete');
   cancelDelete.addEventListener('click', () => {
-    fadeOut('delete-guest-popup');
+    fadeOut(document.getElementById('delete-guest-popup'));
   });
 
   document.getElementById('delete-button-open').addEventListener('click', () => {
-      fadeIn('delete-guest-popup');
+      fadeIn(document.getElementById('delete-guest-popup'));
   });
 
   document.getElementById("delete-confirm").addEventListener("click", deleteGuest);
