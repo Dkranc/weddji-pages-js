@@ -19,11 +19,14 @@ window.addEventListener("DOMContentLoaded", () => {
     const addContactsPopup = document.getElementById("add-contacts-popup");
     const googleButton = document.getElementById("google-btn");
     const googlePopup = document.getElementById("google-contacts");
+    const csvGuestButton = document.getElementById("csv-guest-btn");
+    const csvGuestPopup = document.getElementById("csv-guest-popup");
     const icloudButton = document.getElementById("icloud-btn");
     const icloudPopup = document.getElementById("icloud-contacts");
     const googleClose = document.getElementById("google-close");
     const icloudClose = document.getElementById("icloud-close");
-  
+    const csvGuestClose = document.getElementById("csv-guest-close");
+
     googleButton.addEventListener("click", () => {
       googlePopup.style.display = "flex";
       addContactsPopup.style.display = "none";
@@ -41,4 +44,14 @@ window.addEventListener("DOMContentLoaded", () => {
     icloudClose.addEventListener("click", () => {
       icloudPopup.style.display = "none";
     })
+
+    csvGuestButton.addEventListener("click", () => {
+      csvGuestPopup.style.display = "flex";
+      addContactsPopup.style.display = "none";
+    })
+
+    csvGuestClose.addEventListener("click", () => {
+      csvGuestPopup.style.display = "none";
+    })
+
   })
