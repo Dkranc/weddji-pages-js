@@ -1,0 +1,123 @@
+<input id="csv-file-input" type="file" class="csvFile-uploader" accept=".csv"/>
+<button id="upload-csv-btn-submit" onclick="uploadCSVFile()">העלאה</button>
+
+<script>
+function injectToastContainer() {
+  if (document.getElementById('toast')) return; // avoid duplicates
+  const toast = document.createElement('div');
+  toast.id = 'toast';
+  toast.style = `
+    position: fixed;
+    top: 30px;
+    right: 50%;
+    transform: translateX(50%);
+    padding: 12px 20px;
+    background-color: rgb(0,256,12);
+    color: white;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 9999;
+    font-family: sans-serif;
+  `;
+  document.body.appendChild(toast);
+}
+
+function showToast(message, duration = 3000) {
+  injectToastContainer();
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.style.opacity = '1';
+  toast.style.pointerEvents = 'auto';
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.pointerEvents = 'none';
+  }, duration);
+}
+
+async function uploadCSVFile() {
+  const userData = await supaClient.auth.getUser();
+  const token = (await supaClient.auth.getSession()).data.session?.access_token;
+  const fileInput = document.getElementById('csv-file-input');
+  let file = fileInput.files[0];
+
+  if (!file) {
+    alert("Please select a CSV file.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("userId", userData.data.user.id);
+
+  try {
+    const response = await fetch("https://pkuvjojshuvhfmjwpdgi.supabase.co/functions/v1/upload-contacts-bulk", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const result = await response.json();
+
+  } catch (e) {
+    document.getElementById('google-contacts').style.display = 'none';
+    document.getElementById('icloud-contacts').style.display = 'none';
+    document.getElementById('add-contacts-popup').style.display = 'none';
+    showToast("המוזמנים הועלו בהצלחה!");
+  }
+  // refresh if were on guests page
+  if (window.location.pathname.includes('guests')) {
+   setTimeout(() => {
+     location.reload();
+   }, 3000); // 3 seconds
+ }
+}
+</script>
+
+<style>
+input[type="file"] {
+  background-color: var(--base-color-brand--yellow);
+  color: var(--base-color-brand--black);
+  border: none;
+  border-radius: 10rem;
+  padding: .75rem 1.25rem;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 10px #a38c132e;
+  cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: transparent;
+  border: none;
+  padding: 0 .5em;
+  color: var(--base-color-brand--black);
+  cursor: pointer;
+}
+
+#upload-csv-btn-submit {
+  background-color: white;
+  color: var(--base-color-brand--black);
+  text-align: center;
+  border-radius: 10rem;
+  padding: .75rem 1.25rem;
+  text-decoration: none;
+  transition: all .3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 10px #a38c132e;
+  border: 1px solid var(--base-color-brand--yellow);
+  cursor: pointer;
+}
+
+#upload-csv-btn-submit:hover {
+  background-color: var(--base-color-brand--yellow);
+}
+</style> 
