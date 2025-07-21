@@ -414,6 +414,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       await new Promise(resolve => setTimeout(resolve, 2000));
       readyToSendPopup.style.display = "none";
       readyToSendBtn.disabled = true;
+      readyToSendBtn.removeEventListener("click", () => {
+        readyToSendPopup.style.display = "flex";
+      });
       readyToSendBtn.textContent = "ההזמנות בדרך לאורחים!";
     });
   }
