@@ -242,7 +242,7 @@ buttons.forEach((button) => {
     
     // Convert to timestamptz format if dates are provided
     from = from.value ? new Date(from.value).toISOString() : null;
-    to = to.value ? new Date(to.value).toISOString() : null;
+    to = to.value ?  new Date(new Date(to.value).setHours(23, 59, 59, 999)).toISOString() : null;
     
 
     //document.getElementById('export').addEventListener('click', async () => {
