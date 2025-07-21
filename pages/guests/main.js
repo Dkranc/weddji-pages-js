@@ -379,7 +379,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     readyToSendBtn.textContent = "ההזמנות בדרך לאורחים!";
   }
   
-  if(readyToSendBtn && readyToSendPopup && closeReadyToSend && data && data.status !== "created"){
+  if(readyToSendBtn && readyToSendPopup && closeReadyToSend && data && data.status === "created"){
     readyToSendBtn.addEventListener("click", () => {
       readyToSendPopup.style.display = "flex";
     })
