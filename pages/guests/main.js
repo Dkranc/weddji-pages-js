@@ -375,12 +375,13 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const {data, error}  = await supaClient.functions.invoke("get-invitation-status", { method: "GET" });
   if(data && data.status !== "created"){
-    readyToSendBtn.style.display = "none";
+    readyToSendBtn.disabled = true;
+    readyToSendBtn.textContent = "ההזמנות בדרך לאורחים!";
   }
   
   if(readyToSendBtn && readyToSendPopup && closeReadyToSend){
     readyToSendBtn.addEventListener("click", () => {
-      readyToSendPopup.style.display = "block";
+      readyToSendPopup.style.display = "flex";
     })
     closeReadyToSend.addEventListener("click", () => {
       readyToSendPopup.style.display = "none";
