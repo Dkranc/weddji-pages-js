@@ -413,6 +413,8 @@ window.addEventListener("DOMContentLoaded", async () => {
       // Wait 2 seconds before closing
       await new Promise(resolve => setTimeout(resolve, 2000));
       readyToSendPopup.style.display = "none";
+      readyToSendBtn.disabled = true;
+      readyToSendBtn.textContent = "ההזמנות בדרך לאורחים!";
     });
   }
 });
