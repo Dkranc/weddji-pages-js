@@ -237,10 +237,18 @@ const buttons = document.querySelectorAll(".export-button");
 buttons.forEach((button) => {
   button.addEventListener("click", async () => {
     const providerId = button.getAttribute("provider");
+    let from = document.getElementById('from').value;
+    let to = document.getElementById('to').value;
+    
+    // Convert to timestamptz format if dates are provided
+    from = from ? new Date(from).toISOString() : null;
+    to = to ? new Date(to).toISOString() : null;
+    
+
     //document.getElementById('export').addEventListener('click', async () => {
     try {
       const { data, error } = await supaClient.functions.invoke(
-        `list-rsvp?format=csv&externalService=${providerId}`,
+        `list-rsvp?format=csv&externalService=${providerId}&from=${from}&to=${to}`,
         {
           method: "GET",
         }
@@ -359,11 +367,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   const readyToSendBtn   = document.getElementById("send");
   const readyToSendPopup = document.getElementById("ready-to-send-popup");
   const closeReadyToSend = document.getElementById("cancel-ready");
   const submitReadyToSend = document.getElementById("submit-ready-to-send");
+
+  const {data, error}  = await supaClient.functions.invoke("get-invitation-status", { method: "GET" });
+  if(data && data.status !== "created"){
+    readyToSendBtn.style.display = "none";
+  }
   
   if(readyToSendBtn && readyToSendPopup && closeReadyToSend){
     readyToSendBtn.addEventListener("click", () => {
