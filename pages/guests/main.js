@@ -237,12 +237,12 @@ const buttons = document.querySelectorAll(".export-button");
 buttons.forEach((button) => {
   button.addEventListener("click", async () => {
     const providerId = button.getAttribute("provider");
-    let from = document.querySelector('.form_input.export.from');
+    let from = document.querySelector('.form_input.export.from');    
     let to = document.querySelector('.form_input.export.to');
     
     // Convert to timestamptz format if dates are provided
-    from = from ? new Date(from).toISOString() : null;
-    to = to ? new Date(to).toISOString() : null;
+    from = from.value ? new Date(from.value).toISOString() : null;
+    to = to.value ? new Date(to.value).toISOString() : null;
     
 
     //document.getElementById('export').addEventListener('click', async () => {
