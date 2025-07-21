@@ -237,8 +237,8 @@ const buttons = document.querySelectorAll(".export-button");
 buttons.forEach((button) => {
   button.addEventListener("click", async () => {
     const providerId = button.getAttribute("provider");
-    let from = document.getElementById('from').value;
-    let to = document.getElementById('to').value;
+    let from = document.querySelector('.form_input.export.from');
+    let to = document.querySelector('.form_input.export.to');
     
     // Convert to timestamptz format if dates are provided
     from = from ? new Date(from).toISOString() : null;
