@@ -539,3 +539,57 @@ window.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("delete-confirm").addEventListener("click", deleteGuest);
 });
+
+
+// dropdown export logic
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownToggle = document.querySelector('.dropdown--export');
+    const dropdownList = document.querySelector('.w-dropdown-list');
+    const dropdownItems = document.querySelectorAll('.eprot-dropdown-item');
+    const dateRangeWrapper = document.querySelectorAll('.date-range-wrapper')[1]; // skip the outer wrapper
+
+    let isOpen = false;
+
+    // Handle dropdown toggle click
+    dropdownToggle.addEventListener('click', () => {
+      isOpen = !isOpen;
+      dropdownList.style.display = isOpen ? 'block' : 'none';
+    });
+
+    // Set initial visibility of date range
+    const updateDateVisibility = (selectedText) => {
+      if (selectedText === 'טווח תאריכים') {
+        dateRangeWrapper.style.display = 'block';
+      } else {
+        dateRangeWrapper.style.display = 'none';
+      }
+    };
+
+    // Initialize on page load
+    updateDateVisibility(dropdownToggle.textContent.trim());
+
+    // Handle item selection
+    dropdownItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        const selectedValue = item.textContent.trim();
+
+        // Set the selected value in the visible toggle
+        dropdownToggle.querySelector('.text-align-right').textContent = selectedValue;
+
+        // Show/hide the date fields
+        updateDateVisibility(selectedValue);
+
+        // Close dropdown
+        dropdownList.style.display = 'none';
+        isOpen = false;
+      });
+    });
+
+    // Optional: Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropdownToggle.contains(e.target) && !dropdownList.contains(e.target)) {
+        dropdownList.style.display = 'none';
+        isOpen = false;
+      }
+    });
+  });
