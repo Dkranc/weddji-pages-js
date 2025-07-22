@@ -71,7 +71,7 @@ supaClient.auth.getUser().then(({ data, error }) => {
         .invoke("list-rsvp", { method: "GET" })
         .then(({ data, error }) => {
           if (data && data.length > 0) {
-            $app.components.page_data.store.guests = data.filter( r => { return( r === 0 || r===1 || r===2)} ).slice(0, 3);
+            $app.components.page_data.store.guests = data.filter( r => { return( r.status === 0 || r.status === 1 || r.status === 2)} ).slice(0, 3);
           }
         });
     } else if (
