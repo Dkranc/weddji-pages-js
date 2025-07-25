@@ -243,12 +243,14 @@ buttons.forEach((button) => {
     // Convert to timestamptz format if dates are provided
     from = from.value ? new Date(from.value).toISOString() : null;
     to = to.value ?  new Date(new Date(to.value).setHours(23, 59, 59, 999)).toISOString() : null;
+
+    const includeMaybe = document.getElementById("checkbox-maybe").checked;
     
 
     //document.getElementById('export').addEventListener('click', async () => {
     try {
       const { data, error } = await supaClient.functions.invoke(
-        `list-rsvp?format=csv&externalService=${providerId}&from=${from}&to=${to}`,
+        `list-rsvp?format=csv&externalService=${providerId}&from=${from}&to=${to}&include-maybe=${includeMaybe}`,
         {
           method: "GET",
         }
