@@ -3,24 +3,6 @@
 
 // Template field mapping - defines which fields to collect for each template
 const TEMPLATE_FIELD_MAP = {
-  // Default fields that are common to all templates
-  default: [
-    'wedding-date',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',
-    'couple-names',
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'slug',
-    'custom-image-24'
-  ],
-  
   // Clasic-static template
   'calsatic': [
     'wedding-date',
@@ -35,7 +17,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-field-1',
     'custom-image-1',
@@ -70,7 +51,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-text-1',
     'custom-text-2',
@@ -100,7 +80,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-text-1',
     'custom-text-2',
@@ -130,7 +109,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-text-2',
     'custom-text-3',
@@ -153,7 +131,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-text-1',
     'custom-text-2',
@@ -191,7 +168,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-image-1',
     'custom-text-2',
@@ -223,7 +199,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-text-1',
     'custom-text-2',
@@ -258,7 +233,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-text-1',
     'custom-textarea-2',
@@ -296,7 +270,6 @@ const TEMPLATE_FIELD_MAP = {
     'whatsapp-title',
     'whatsapp-description',
     'color-palette',
-    'slug',
     'custom-image-24',
     'custom-text-1',
     'custom-image-2',
@@ -330,7 +303,7 @@ function getTemplateName() {
 // Function to get fields for current template
 function getTemplateFields() {
   const templateName = getTemplateName();
-  return TEMPLATE_FIELD_MAP[templateName] || TEMPLATE_FIELD_MAP.default;
+  return TEMPLATE_FIELD_MAP[templateName] || [];
 }
 
 // Function to collect form data based on template field mapping
@@ -338,16 +311,41 @@ function collectTemplateFormData(form) {
   const templateFields = getTemplateFields();
   const templateData = {};
   
+  // First, let's get all form data like before to capture UploadCare values
+  const formData = new FormData(form);
+  const allFormData = {};
+  for (const [key, value] of formData.entries()) {
+    allFormData[key] = value;
+  }
+  
   templateFields.forEach(fieldName => {
-    const element = form.querySelector(`[name="${fieldName}"]`);
-    if (element) {
-      const value = element.value;
-      // Send null for empty strings, otherwise send the value
-      templateData[fieldName] = value === "" ? null : value;
+    let value = null;
+    
+    // First try to get from FormData (this captures UploadCare string values)
+    if (allFormData[fieldName]) {
+      value = allFormData[fieldName];
     } else {
-      // Field not found in form, send null
-      templateData[fieldName] = null;
+      // Fallback to direct element query
+      const element = form.querySelector(`[name="${fieldName}"]`);
+      if (element) {
+        value = element.value;
+        
+        // Special handling for UploadCare image fields if still empty
+        if ((fieldName.includes('image') || fieldName.includes('custom-image')) && !value) {
+          const uploadCareProvider = form.querySelector(`uc-upload-ctx-provider[ctx-name="${fieldName}"]`);
+          if (uploadCareProvider) {
+            // Try to get the UploadCare URL from the provider
+            const uploadCareData = uploadCareProvider.uploadCollection?.files;
+            if (uploadCareData && uploadCareData.length > 0) {
+              value = uploadCareData[0].cdnUrl || uploadCareData[0].originalUrl || value;
+            }
+          }
+        }
+      }
     }
+    
+    // Send null for empty strings, otherwise send the value
+    templateData[fieldName] = value === "" ? null : value;
   });
   
   return templateData;
