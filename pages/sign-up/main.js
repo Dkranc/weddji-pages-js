@@ -7,7 +7,8 @@
 	  fields: {
       fullName: '',
       email: '',
-      password: ''
+      password: '',
+      phone: ''
     },
     error: false
   };
@@ -23,12 +24,13 @@
     submitBtn = document.getElementById('submit-btn');
   })
 
+  //called in the ui in the submit button.
   async function register(store, el, e) {
     e.preventDefault();
     
     store.error = '';
 
-    if(!isValidEmail(store.fields.email) || !isValidPassword(store.fields.password) || !isValidName(store.fields.fullName)) {
+    if(!isValidEmail(store.fields.email) || !isValidPassword(store.fields.password) || !isValidName(store.fields.fullName) || !isValidPhone(store.fields.phone)) {
         errorSIgnUp.style.display = 'block';
         setTimeout(() => {
             errorSIgnUp.style.display = 'none';
@@ -44,7 +46,8 @@
         emailRedirectTo: `${window.location.origin}/login`,
         data: { 
         	name: store.fields.fullName, 
-          approvesMarketing: document.getElementById('approvesMarketing').checked
+          approvesMarketing: document.getElementById('approvesMarketing').checked,
+          phone: store.fields.phone
         }
       }
     });
@@ -70,4 +73,6 @@
     return name.length >= 3;
   }
   
-  
+  function isValidPhone(phone) {
+    return /^05\d{8}$/.test(phone);
+  }
