@@ -18,7 +18,6 @@ const TEMPLATE_FIELD_MAP = {
     'color-palette',
     'custom-image-24',
     'custom-field-1',
-    'custom-image-1',
     'custom-image-2',
     'custom-field-2',
     'custom-image-3',
