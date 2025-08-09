@@ -46,6 +46,27 @@ supaClient.auth.getUser().then(({ data }) => {
     );
 });
 
+async function getTemplatePrice(){
+  //get the template price
+  const lastSegment = window.location.pathname
+    .replace(/\/$/, "")
+    .split("/")
+    .pop();
+ const {data, error} = await supaClient.functions
+    .invoke("get-template-metadata", { method: "GET" })
+    if (error) {
+      console.log(error);
+      return;
+    }
+      const template = data.find(
+        (temp) => temp.templateslug === lastSegment
+      );
+      if (!template || !template.price) return;
+      const price = template.price;
+      return price;
+    
+};
+
 //<!-- Show upload image success icon -->
 function showUploadImageSuccessIcon() {
   const uploadCtxProviders = document.querySelectorAll(
@@ -598,26 +619,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  async function getTemplatePrice(){
-      //get the template price
-      const lastSegment = window.location.pathname
-        .replace(/\/$/, "")
-        .split("/")
-        .pop();
-     const {data, error} = await supaClient.functions
-        .invoke("get-template-metadata", { method: "GET" })
-        if (error) {
-          console.log(error);
-          return;
-        }
-          const template = data.find(
-            (temp) => temp.templateslug === lastSegment
-          );
-          if (!template || !template.price) return;
-          const price = template.price;
-          return price;
-        
-  };
+
 
   async function getPaymentLink(price) {
     if (!price) {
