@@ -64,8 +64,29 @@ async function getTemplatePrice(){
       if (!template || !template.price) return;
       const price = template.price;
       return price;
-    
 };
+
+async function getPaymentLink(price) {
+  if (!price) {
+    console.log("price not found");
+    return;
+  }
+  const { data, error } = await supaClient.functions.invoke(
+    "get-payment-link",
+    {
+      body: { price }, // 👈 pass your dynamic price here
+    }
+  );
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  console.log('payment link', data.data);
+  document.getElementById("payment-btn").href = data.data;
+  document.getElementById("payment-btn").text = "לתשלום";
+}
 
 //<!-- Show upload image success icon -->
 function showUploadImageSuccessIcon() {
@@ -626,31 +647,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-
-
-
-
-  async function getPaymentLink(price) {
-    if (!price) {
-      console.log("price not found");
-      return;
-    }
-    const { data, error } = await supaClient.functions.invoke(
-      "get-payment-link",
-      {
-        body: { price }, // 👈 pass your dynamic price here
-      }
-    );
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    console.log('payment link', data.data);
-    document.getElementById("payment-btn").href = data.data;
-    document.getElementById("payment-btn").text = "לתשלום";
-  }
 });
 
 //function handleOverlayClick(event) {
