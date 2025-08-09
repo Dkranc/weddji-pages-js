@@ -21,6 +21,7 @@ const pageData = {
       fullName: "",
       email: "",
       password: "",
+      phone: "",
     },
     error: "",
   },
@@ -473,7 +474,8 @@ async function signup(e) {
   if (
     !isValidEmail(store.fields.email) ||
     !isValidPassword(store.fields.password) ||
-    !isValidName(store.fields.fullName)
+    !isValidName(store.fields.fullName) ||
+    !isValidPhone(store.fields.phone)
   ) {
     errorSIgnUp.style.display = "block";
     setTimeout(() => {
@@ -490,6 +492,7 @@ async function signup(e) {
     data: {
       name: store.fields.fullName,
       approvesMarketing: document.getElementById("approvesMarketing").checked,
+      phone: store.fields.phone
     },
   });
 
@@ -515,6 +518,10 @@ function isValidPassword(password) {
 
 function isValidName(name) {
   return name.length >= 3;
+}
+
+function isValidPhone(phone) {
+  return /^05\d{8}$/.test(phone);
 }
 
 document.querySelector("#signup-form").addEventListener("submit", signup);
