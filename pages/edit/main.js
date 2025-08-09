@@ -389,7 +389,7 @@ async function validateCoupon(e) {
   try {
     // Call your edge function to get updated price
     const { data, error } = await supaClient.functions.invoke(
-      "validate-coupons",
+      "validate-coupon",
       {
         body: JSON.stringify({ "couponCode": couponCode, "originalPrice": price }),
       }
