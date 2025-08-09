@@ -346,7 +346,7 @@ async function completeQuestions(e) {
 }
 
 // Price Update Functionality
-function initializePriceUpdateHandlers() {
+function initializeCouponHandlers() {
   // Find the input field for guest count (adjust selector as needed)
   const button = document.querySelector('.button-5.coup-btn.w-button');
   
@@ -582,11 +582,8 @@ document.addEventListener("DOMContentLoaded", () => {
   submitBtn.style.opacity = "0.5";
   submitBtn.style.pointerEvents = "none";
 
-  // Initialize CSV guest popup handlers
-  initializeCSVPopupHandlers();
-
   // Initialize price update functionality
-  initializePriceUpdateHandlers();
+  initializeCouponHandlers();
 
   //<!-- Enable payment button -->
 
