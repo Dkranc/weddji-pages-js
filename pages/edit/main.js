@@ -301,40 +301,50 @@ function collectTemplateFormData(form) {
   
   // First, let's get all form data like before to capture UploadCare values
   const formData = new FormData(form);
-  const allFormData = {};
+
+  //temp - delete this
   for (const [key, value] of formData.entries()) {
-    allFormData[key] = value;
-  }
-  
-  templateFields.forEach(fieldName => {
-    let value = null;
-    
-    // First try to get from FormData (this captures UploadCare string values)
-    if (allFormData[fieldName]) {
-      value = allFormData[fieldName];
-    } else {
-      // Fallback to direct element query
-      const element = form.querySelector(`[name="${fieldName}"]`);
-      if (element) {
-        value = element.value;
-        
-        // Special handling for UploadCare image fields if still empty
-        if ((fieldName.includes('image') || fieldName.includes('custom-image')) && !value) {
-          const uploadCareProvider = form.querySelector(`uc-upload-ctx-provider[ctx-name="${fieldName}"]`);
-          if (uploadCareProvider) {
-            // Try to get the UploadCare URL from the provider
-            const uploadCareData = uploadCareProvider.uploadCollection?.files;
-            if (uploadCareData && uploadCareData.length > 0) {
-              value = uploadCareData[0].cdnUrl || uploadCareData[0].originalUrl || value;
-            }
-          }
-        }
-      }
+    // if (value !== undefined) { -- also fpr when update is ready
+    if (value) {
+      templateData[key] = value;
     }
+  }
+
+// this is the real solution
+  //const allFormData = {};
+  // for (const [key, value] of formData.entries()) {
+  //   allFormData[key] = value;
+  // }
+  
+  // templateFields.forEach(fieldName => {
+  //   let value = null;
     
-    // Send null for empty strings, otherwise send the value
-    templateData[fieldName] = value === "" ? null : value;
-  });
+  //   // First try to get from FormData (this captures UploadCare string values)
+  //   if (allFormData[fieldName]) {
+  //     value = allFormData[fieldName];
+  //   } else {
+  //     // Fallback to direct element query
+  //     const element = form.querySelector(`[name="${fieldName}"]`);
+  //     if (element) {
+  //       value = element.value;
+        
+  //       // Special handling for UploadCare image fields if still empty
+  //       if ((fieldName.includes('image') || fieldName.includes('custom-image')) && !value) {
+  //         const uploadCareProvider = form.querySelector(`uc-upload-ctx-provider[ctx-name="${fieldName}"]`);
+  //         if (uploadCareProvider) {
+  //           // Try to get the UploadCare URL from the provider
+  //           const uploadCareData = uploadCareProvider.uploadCollection?.files;
+  //           if (uploadCareData && uploadCareData.length > 0) {
+  //             value = uploadCareData[0].cdnUrl || uploadCareData[0].originalUrl || value;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+    
+  //   // Send null for empty strings, otherwise send the value
+  //   templateData[fieldName] = value === "" ? null : value;
+  // });
   
   return templateData;
 }
