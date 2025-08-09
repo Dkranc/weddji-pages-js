@@ -357,7 +357,9 @@ function initializePriceUpdateHandlers() {
 }
 
 
-async function validateCoupon() {
+async function validateCoupon(e) {
+  e.preventDefault();
+  e.stopImmediatePropagation(); // Prevent Webflow's form logic from running
   const couponInput = document.getElementById('coupon-code-txt');
   const couponCode = couponInput.value || '';
   const price = await getTemplatePrice();
