@@ -344,6 +344,61 @@ async function completeQuestions(e) {
     document.querySelector("#payment-popup").style.opacity = 1;
   }
 }
+
+// Price Update Functionality
+function initializePriceUpdateHandlers() {
+  // Find the input field for guest count (adjust selector as needed)
+  const button = document.querySelector('.button-5.coup-btn.w-button');
+  
+  if (button) {
+    // Add click handler to update price when input is clicked/changed
+    button.addEventListener('click', validateCoupon);
+  }
+}
+
+
+async function validateCoupon() {
+  const couponInput = document.getElementById('coupon-code-txt');
+  const couponCode = couponInput.value || '';
+  const price = await getTemplatePrice();
+
+
+  try {
+    // Call your edge function to get updated price
+    const { data, error } = await supaClient.functions.invoke(
+      "validate-coupons",
+      {
+        body: JSON.stringify({ "couponCode": couponCode, "originalPrice": price }),
+      }
+    );
+
+    if (error) {
+      console.error('Error calculating price:', error);
+      return;
+    }
+
+    const {      valid,finalPrice} = data;
+    if (!valid) {
+      console.error('Invalid coupon code');
+      return;
+    }
+
+    const newPrice = finalPrice; // Adjust based on your API response structure
+
+    //update the price display
+    const priceHeaderElement = document.getElementById("final-price-header-txt");
+
+    if (priceHeaderElement) {
+      priceHeaderElement.textContent = `₪${newPrice} מחיר סופי`;
+    }
+
+    // Update payment link with new price
+    await getPaymentLink(newPrice);
+
+  } catch (error) {
+    console.error('Error updating price:', error);
+  }
+}
 document
   .querySelector("#wf-form-feedback")
   .addEventListener("submit", completeQuestions);
@@ -525,33 +580,45 @@ document.addEventListener("DOMContentLoaded", () => {
   submitBtn.style.opacity = "0.5";
   submitBtn.style.pointerEvents = "none";
 
+  // Initialize CSV guest popup handlers
+  initializeCSVPopupHandlers();
+
+  // Initialize price update functionality
+  initializePriceUpdateHandlers();
+
   //<!-- Enable payment button -->
 
-  supaClient.auth.getSession().then(({ data, error }) => {
+  supaClient.auth.getSession().then(async ({ data, error }) => {
     if (error || !data || !data.session) window.location.href = "/log-in";
     else {
+      const price = await getTemplatePrice();
+      if (price) {
+        getPaymentLink(price);
+      }
+    }
+  });
+
+
+  async function getTemplatePrice(){
       //get the template price
       const lastSegment = window.location.pathname
         .replace(/\/$/, "")
         .split("/")
         .pop();
-      supaClient.functions
+     const {data, error} = await supaClient.functions
         .invoke("get-template-metadata", { method: "GET" })
-        .then(({ data, error }) => {
-          if (error) {
-            console.log(error);
-            return;
-          }
+        if (error) {
+          console.log(error);
+          return;
+        }
           const template = data.find(
             (temp) => temp.templateslug === lastSegment
           );
           if (!template || !template.price) return;
           const price = template.price;
-
-          getPaymentLink(price);
-        });
-    }
-  });
+          return price;
+        
+  };
 
   async function getPaymentLink(price) {
     if (!price) {
