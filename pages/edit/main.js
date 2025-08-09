@@ -385,6 +385,8 @@ async function validateCoupon(e) {
   const couponCode = couponInput.value || '';
   const price = await getTemplatePrice();
 
+  const successIcon = document.getElementById('cpn-success-icon');
+  const failIcon = document.getElementById('cpn-fail-icon');
 
   try {
     // Call your edge function to get updated price
@@ -397,12 +399,14 @@ async function validateCoupon(e) {
 
     if (error) {
       console.error('Error calculating price:', error);
+      failIcon.style.display = 'block';
       return;
     }
 
     const {      valid,finalPrice} = data;
     if (!valid) {
       console.error('Invalid coupon code');
+      failIcon.style.display = 'block';
       return;
     }
 
@@ -412,14 +416,19 @@ async function validateCoupon(e) {
     const priceHeaderElement = document.getElementById("final-price-header-txt");
 
     if (priceHeaderElement) {
-      priceHeaderElement.textContent = `₪${newPrice} מחיר סופי`;
+      priceHeaderElement.textContent = `מחיר סופי: ₪${newPrice} `;
+    }
+    else{
+      throw new Error('Price header element not found');
     }
 
     // Update payment link with new price
     await getPaymentLink(newPrice);
+    successIcon.style.display = 'block';
 
   } catch (error) {
     console.error('Error updating price:', error);
+    failIcon.style.display = 'block';
   }
 }
 document
@@ -613,7 +622,7 @@ document.addEventListener("DOMContentLoaded", () => {
     else {
       const price = await getTemplatePrice();
       if (price) {
-        getPaymentLink(price);
+        await getPaymentLink(price);
       }
     }
   });
@@ -638,6 +647,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    console.log('payment link', data.data);
     document.getElementById("payment-btn").href = data.data;
     document.getElementById("payment-btn").text = "לתשלום";
   }
