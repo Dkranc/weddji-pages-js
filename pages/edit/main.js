@@ -296,7 +296,7 @@ function getTemplateFields() {
 
 // Function to collect form data based on template field mapping
 function collectTemplateFormData(form) {
-  const templateFields = getTemplateFields();
+  //const templateFields = getTemplateFields();
   const templateData = {};
   
   // First, let's get all form data like before to capture UploadCare values
