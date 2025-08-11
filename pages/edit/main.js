@@ -2,282 +2,282 @@
 //to update cdn visit : https://purge.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/edit/main.js
 
 // Template field mapping - defines which fields to collect for each template
+// Maps generic field names to Webflow collection field slugs for each template
 const TEMPLATE_FIELD_MAP = {
-  // Clasic-static template
-  'calsatic': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-image-2',
-    'custom-image-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-field-9',
-    'custom-field-10',
-    'custom-field-11',
-    'custom-field-12',
-    'custom-field-13',
-    'custom-field-14'
-  ],
+  // Clasic-static template (9_Clasic-statics)
+  'calsatic': {
+    'wedding-date-he': 'hebrew-date-he',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'place-name',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 't9-color',
+    'custom-image-24': 'whatapp-open-graph---image-2',
+    'custom-field-1': 'story-subtitle',
+    'custom-image-2': 'picture-1',
+    'custom-image-3': 'picture-2',
+    'custom-field-4': 'quote-subtext',
+    'custom-field-5': 'quote-2',
+    'custom-field-6': 'story-text',
+    'custom-field-7': 'wedding-time',
+    'custom-field-8': 'schedule-time-2-2',
+    'custom-field-9': 'schedule-title-1',
+    'custom-field-10': 'schedule-title-2',
+    'custom-field-11': 'main-title',
+    'custom-field-12': 'registry-text',
+    'custom-field-13': 'groom-parents',
+    'custom-field-14': 'bbride-parents'
+  },
 
-  // Flowers template
-  'flowers': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-url-9',
-    'custom-url-10',
-    'custom-field-11',
-    'custom-field-12'
-  ],
+  // Flowers template (8_Envelopes Flowers)
+  'flowers': {
+    'wedding-date-he': 'tryk-bry',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'place-name-2',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 'color-palette-1',
+    'custom-image-24': 'whatapp-open-graph---image',
+    'custom-field-1': 'quote',
+    'custom-field-2': 'quote-subtext',
+    'custom-field-3': 'headline---save-the-date-date',
+    'custom-field-4': 'schedule-title-1',
+    'custom-field-5': 'schedule-title-2',
+    'custom-field-6': 'parents-title',
+    'custom-field-7': 'bride-parents',
+    'custom-field-8': 'groom-parents',
+    'custom-url-9': 'bit-link',
+    'custom-url-10': 'paybox-link',
+    'custom-field-11': 'greeting-title',
+    'custom-field-12': 'he-signup-title'
+  },
 
-  // Envelope template
-  'envelope': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-url-9',
-    'custom-url-10',
-    'custom-field-11',
-    'custom-field-12'
-  ],
+  // Envelope template (7_Envelopes)
+  'envelope': {
+    'wedding-date-he': 'tryk-bry',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'place-name-2',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 'color-palette-1',
+    'custom-image-24': 'whatapp-open-graph---image',
+    'custom-field-1': 'quote',
+    'custom-field-2': 'quote-subtext',
+    'custom-field-3': 'headline---save-the-date-date',
+    'custom-field-4': 'schedule-title-1',
+    'custom-field-5': 'schedule-title-2',
+    'custom-field-6': 'parents-title',
+    'custom-field-7': 'bride-parents',
+    'custom-field-8': 'groom-parents',
+    'custom-url-9': 'bit-link',
+    'custom-url-10': 'paybox-link',
+    'custom-field-11': 'greeting-title',
+    'custom-field-12': 'he-signup-title'
+  },
 
-  // Puzzle template
-  'puzzle': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6'
-  ],
+  // Puzzle template (6_Puzzles)
+  'puzzle': {
+    'wedding-date-he': 'hebrew-date-he',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'place-name',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 't6-main-color',
+    'custom-image-24': 'whatapp-open-graph---image-2',
+    'custom-field-2': 'registry-text',
+    'custom-field-3': 'reception-title',
+    'custom-field-4': 'ceremony-title',
+    'custom-field-5': 'parents-title',
+    'custom-field-6': 'groom-parents-names'
+  },
 
-  // Evermore template
-  'evermore': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-field-2',
-    'custom-image-3',
-    'custom-field-4',
-    'custom-image-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-field-9',
-    'custom-image-10',
-    'custom-field-11',
-    'custom-time-12',
-    'custom-fieldarea-13',
-    'custom-image-14',
-    'custom-image-15',
-    'custom-image-16',
-    'custom-image-17',
-    'custom-field-18',
-    'custom-fieldarea-19',
-    'custom-url-20'
-  ],
+  // Evermore template (3_Evermore)
+  'evermore': {
+    'wedding-date-he': 'tryk-bry',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'place-name-2',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 'color-palette-1',
+    'custom-image-24': 'whatapp-open-graph---image',
+    'custom-field-1': 'main-image',
+    'custom-field-2': 'groom-name-en',
+    'custom-image-3': 'picture-1',
+    'custom-field-4': 'bride-name-en',
+    'custom-image-5': 'gallery-image-1',
+    'custom-field-6': 'invite-title',
+    'custom-field-7': 'invitation-text',
+    'custom-field-8': 'reception-description',
+    'custom-field-9': 'ceremony-description',
+    'custom-image-10': 'gallery-image-2',
+    'custom-field-11': 'dinner-description',
+    'custom-time-12': 'dinner-time-new',
+    'custom-fieldarea-13': 'gift-description',
+    'custom-image-14': 'gallery-image-3',
+    'custom-image-15': 'gallery-image-4',
+    'custom-image-16': 'gift-title',
+    'custom-image-17': 'gift-link',
+    'custom-field-18': 'rsvp-title',
+    'custom-fieldarea-19': 'thank-you---title'
+  },
 
-  // Blossom template
-  'blossom': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-image-1',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-field-9',
-    'custom-time-10',
-    'custom-field-11',
-    'custom-time-12',
-    'custom-field-13',
-    'custom-field-14'
-  ],
+  // Blossom template (1_Blossom)
+  'blossom': {
+    'wedding-date-he': 'tryk-bry',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'place-name-2',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 'color-palette-1',
+    'custom-image-24': 'whatapp-open-graph---image',
+    'custom-image-1': 'picture-1',
+    'custom-field-2': 'groom-parents',
+    'custom-field-3': 'bride-parents',
+    'custom-field-4': 'invite-title',
+    'custom-field-5': 'schedule-title',
+    'custom-field-6': 'schedule-subtitle',
+    'custom-field-7': 'schedule-title-1',
+    'custom-field-8': 'schedule-title-2',
+    'custom-field-9': 'schedule-title-3',
+    'custom-time-10': 'dinner-time-new',
+    'custom-field-11': 'schedule-title-4',
+    'custom-time-12': 'party-time-new',
+    'custom-field-13': 'rsvp-subtitle',
+    'custom-field-14': 'rsvp-title'
+  },
 
-  // Horizon template
-  'horizon': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-time-4',
-    'custom-field-5',
-    'custom-time-6',
-    'custom-field-7',
-    'custom-image-8',
-    'custom-field-9',
-    'custom-fieldarea-10',
-    'custom-image-11',
-    'custom-fieldarea-12',
-    'custom-url-13',
-    'custom-field-14',
-    'custom-image-15',
-    'custom-image-16',
-    'custom-image-17'
-  ],
+  // Horizon template (5_Horizon)
+  'horizon': {
+    'wedding-date-he': 'hebrew-date-he',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'place-name',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 'color-palette-1',
+    'custom-image-24': 'whatapp-open-graph---image-2',
+    'custom-field-1': 'wedding-time',
+    'custom-field-2': 'schedule-time-2-2',
+    'custom-field-3': 'schedule-title-1',
+    'custom-time-4': 'schedule-time-3-2',
+    'custom-field-5': 'schedule-title-2',
+    'custom-time-6': 'schedule-time-4-2',
+    'custom-field-7': 'schedule-title-3',
+    'custom-image-8': 'picture-1',
+    'custom-field-9': 'schedule-title-4',
+    'custom-fieldarea-10': 'story-text',
+    'custom-image-11': 'picture-4',
+    'custom-fieldarea-12': 'gifts-text',
+    'custom-url-13': 'gifts-link',
+    'custom-field-14': 'registry-text',
+    'custom-image-15': 'picture-2',
+    'custom-image-16': 'picture-3',
+    'custom-image-17': 'story-subtitle'
+  },
 
-  // Timeless template
-  'timeless': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-fieldarea-2',
-    'custom-image-3',
-    'custom-image-4',
-    'custom-image-5',
-    'custom-image-6',
-    'custom-image-7',
-    'custom-field-8',
-    'custom-field-9',
-    'custom-field-10',
-    'custom-field-11',
-    'custom-field-12',
-    'custom-fieldarea-13',
-    'custom-image-14',
-    'custom-image-15',
-    'custom-image-16',
-    'custom-image-17',
-    'custom-field-18',
-    'custom-fieldarea-19',
-    'custom-url-20'
-  ],
+  // Timeless template (4_Timeless)
+  'timeless': {
+    'wedding-date-he': 'wedding-date-he',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'weeding-location',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 't4-mai-colornn',
+    'custom-image-24': 'whatsapp-open-graph---image',
+    'custom-field-1': 'subtitle',
+    'custom-fieldarea-2': 'registry-body-1',
+    'custom-image-3': 'picture-1',
+    'custom-image-4': 'picture-2',
+    'custom-image-5': 'picture-3',
+    'custom-image-6': 'picture-4',
+    'custom-image-7': 'picture-5',
+    'custom-field-8': 'bride-parents',
+    'custom-field-9': 'parents-title',
+    'custom-field-10': 'groom-parents',
+    'custom-field-11': 'registry-title-4',
+    'custom-field-12': 'gallery-title',
+    'custom-fieldarea-13': 'registry-body-2',
+    'custom-image-14': 'picture-6',
+    'custom-image-15': 'picture-7',
+    'custom-image-16': 'picture-8',
+    'custom-image-17': 'picture-9',
+    'custom-field-18': 'gift-title',
+    'custom-fieldarea-19': 'gift-description',
+    'custom-url-20': 'gifts-link-2'
+  },
 
-  // Confetti template
-  'confetti': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-image-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-time-7',
-    'custom-field-8',
-    'custom-time-9',
-    'custom-image-10',
-    'custom-image-11',
-    'custom-image-12',
-    'custom-image-13',
-    'custom-image-14',
-    'custom-image-15',
-    'custom-field-16',
-    'custom-field-17',
-    'custom-field-18'
-  ]
+  // Confetti template (2_Confetti)
+  'confetti': {
+    'wedding-date-he': 'tryk-bry',
+    'wedding-date-en': 'main-date',
+    'wedding-location': 'place-name-2',
+    'wedding-location-latitude': 'wedding-location-latitude',
+    'wedding-location-longitude': 'wedding-location-longitude',
+    'wedding-location-name': 'wedding-location-google',
+    'groom-name': 'groom-name',
+    'bride-name': 'bride-name',
+    'whatsapp-title': 'whatsapp-open-graph---title',
+    'whatsapp-description': 'whatsapp-open-graph---description',
+    'color-palette': 'color-palette-1',
+    'custom-image-24': 'whatapp-open-graph---image',
+    'custom-field-1': 'headline---save-the-date-date',
+    'custom-image-2': 'picture-1',
+    'custom-field-3': 'en-schedule-title-2',
+    'custom-field-4': 'new',
+    'custom-field-5': 'schedule-title-1',
+    'custom-field-6': 'schedule-title-2',
+    'custom-time-7': 'dinner-time-new',
+    'custom-field-8': 'schedule-title-3',
+    'custom-time-9': 'party-time-new',
+    'custom-image-10': 'picture-2',
+    'custom-image-11': 'picture-2-new',
+    'custom-image-12': 'picture-3',
+    'custom-image-13': 'picture-4',
+    'custom-image-14': 'picture-5-2',
+    'custom-image-15': 'picture-6-2',
+    'custom-field-16': 'he-signup-title',
+    'custom-field-17': 'en-signup-title',
+    'custom-field-18': 'he-map-title'
+  }
 };
 
 // Function to get template name from URL
@@ -291,60 +291,53 @@ function getTemplateName() {
 // Function to get fields for current template
 function getTemplateFields() {
   const templateName = getTemplateName();
-  return TEMPLATE_FIELD_MAP[templateName] || [];
+  const templateMap = TEMPLATE_FIELD_MAP[templateName] || {};
+  return Object.keys(templateMap); // Return the generic field names (keys)
 }
 
 // Function to collect form data based on template field mapping
 function collectTemplateFormData(form) {
-  //const templateFields = getTemplateFields();
+  const templateName = getTemplateName();
+  const templateMap = TEMPLATE_FIELD_MAP[templateName] || {};
   const templateData = {};
   
   // First, let's get all form data like before to capture UploadCare values
   const formData = new FormData(form);
-
-  //temp - delete this
+  const allFormData = {};
   for (const [key, value] of formData.entries()) {
-    // if (value !== undefined) { -- also fpr when update is ready
-    if (value) {
-      templateData[key] = value;
-    }
+    allFormData[key] = value;
   }
-
-// this is the real solution
-  //const allFormData = {};
-  // for (const [key, value] of formData.entries()) {
-  //   allFormData[key] = value;
-  // }
   
-  // templateFields.forEach(fieldName => {
-  //   let value = null;
+  // Map each generic field to its corresponding Webflow field and collect the data
+  Object.entries(templateMap).forEach(([genericField, webflowField]) => {
+    let value = null;
     
-  //   // First try to get from FormData (this captures UploadCare string values)
-  //   if (allFormData[fieldName]) {
-  //     value = allFormData[fieldName];
-  //   } else {
-  //     // Fallback to direct element query
-  //     const element = form.querySelector(`[name="${fieldName}"]`);
-  //     if (element) {
-  //       value = element.value;
+    // First try to get from FormData (this captures UploadCare string values)
+    if (allFormData[webflowField]) {
+      value = allFormData[webflowField];
+    } else {
+      // Fallback to direct element query
+      const element = form.querySelector(`[name="${webflowField}"]`);
+      if (element) {
+        value = element.value;
         
-  //       // Special handling for UploadCare image fields if still empty
-  //       if ((fieldName.includes('image') || fieldName.includes('custom-image')) && !value) {
-  //         const uploadCareProvider = form.querySelector(`uc-upload-ctx-provider[ctx-name="${fieldName}"]`);
-  //         if (uploadCareProvider) {
-  //           // Try to get the UploadCare URL from the provider
-  //           const uploadCareData = uploadCareProvider.uploadCollection?.files;
-  //           if (uploadCareData && uploadCareData.length > 0) {
-  //             value = uploadCareData[0].cdnUrl || uploadCareData[0].originalUrl || value;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
+        // Special handling for UploadCare image fields if still empty
+        if ((webflowField.includes('image') || webflowField.includes('picture')) && !value) {
+          const uploadCareProvider = form.querySelector(`uc-upload-ctx-provider[ctx-name="${webflowField}"]`);
+          if (uploadCareProvider) {
+            // Try to get the UploadCare URL from the provider
+            const uploadCareData = uploadCareProvider.uploadCollection?.files;
+            if (uploadCareData && uploadCareData.length > 0) {
+              value = uploadCareData[0].cdnUrl || uploadCareData[0].originalUrl || value;
+            }
+          }
+        }
+      }
+    }
     
-  //   // Send null for empty strings, otherwise send the value
-  //   templateData[fieldName] = value === "" ? null : value;
-  // });
+    // Send null for empty strings, otherwise send the value
+    templateData[genericField] = value === "" ? null : value;
+  });
   
   return templateData;
 }
