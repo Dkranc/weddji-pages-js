@@ -18,7 +18,7 @@ function collectTemplateFormData(form) {
 
   // Compare with original data and add null for missing fields
   for (const [key, value] of Object.entries(originalFormData)) {
-    if (!(key in templateData)) {
+    if (!(key in templateData) && key !== "slug" && key !== "color-palette") {
       templateData[key] = null;
     }
   }
