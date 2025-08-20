@@ -17,6 +17,8 @@ function collectTemplateFormData(form) {
   }
 
   // Compare with original data and add null for missing fields
+  // Since originalFormData only contains fields with actual values,
+  // any field in originalFormData that's missing from current formData should be set to null
   for (const [key, value] of Object.entries(originalFormData)) {
     if (!(key in templateData) && key !== "slug" && key !== "color-palette") {
       templateData[key] = null;
@@ -224,8 +226,10 @@ supaClient.functions
       const elements = document.getElementsByName(key);
       if (key.includes("image")) {
         setImageFields(key, value?.url);
-        // Store original image data
-        originalFormData[key] = value?.url;
+        // Store original image data only if it has a value
+        if (value?.url) {
+          originalFormData[key] = value.url;
+        }
       }
       if (
         elements &&
@@ -235,8 +239,10 @@ supaClient.functions
       ) {
         elements[0].value = value;
         elements[0].dispatchEvent(new Event("input", { bubbles: true }));
-        // Store original field data
-        originalFormData[key] = value;
+        // Store original field data only if it has a value
+        if (value) {
+          originalFormData[key] = value;
+        }
       } else if (key === "slug") {
         const baseUrl = "www.weddji.co.il/";
         $app.components.page_data.store.weddingForm.slug = baseUrl + value;
@@ -245,18 +251,24 @@ supaClient.functions
         if (el) {
           el.textContent = baseUrl + value;
         }
-        // Store original slug data
-        originalFormData[key] = value;
+        // Store original slug data only if it has a value
+        if (value) {
+          originalFormData[key] = value;
+        }
       } else if (key === "custom-image-24") {
         updateWhatsAppImage(value.url);
-        // Store original image data
-        originalFormData[key] = value?.url;
+        // Store original image data only if it has a value
+        if (value?.url) {
+          originalFormData[key] = value.url;
+        }
       } else if (key === "wedding-date-en") {
         const date = extractDateIfValid(value);
         elements[0].value = date;
         elements[0].dispatchEvent(new Event("input", { bubbles: true }));
-        // Store original date data
-        originalFormData[key] = value;
+        // Store original date data only if it has a value
+        if (value) {
+          originalFormData[key] = value;
+        }
       }
     }
   });
@@ -276,8 +288,10 @@ supaClient.functions
       const elements = document.getElementsByName(key);
       if (elements && elements.length) {
         elements[0].value = value;
-        // Store original template data
-        originalFormData[key] = value || null;
+        // Store original template data only if it has a value
+        if (value) {
+          originalFormData[key] = value;
+        }
       }
     }
     updateIframeTemplate();
