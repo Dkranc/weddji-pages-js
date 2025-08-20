@@ -1,350 +1,27 @@
 // file path = <script src="https://cdn.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/edit/main.js"></script>
 //to update cdn visit : https://purge.jsdelivr.net/gh/Dkranc/weddji-pages-js/pages/edit/main.js
 
-// Template field mapping - defines which fields to collect for each template
-const TEMPLATE_FIELD_MAP = {
-  // Clasic-static template
-  'calsatic': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-image-2',
-    'custom-image-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-field-9',
-    'custom-field-10',
-    'custom-field-11',
-    'custom-field-12',
-    'custom-field-13',
-    'custom-field-14'
-  ],
-
-  // Flowers template
-  'flowers': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-url-9',
-    'custom-url-10',
-    'custom-field-11',
-    'custom-field-12'
-  ],
-
-  // Envelope template
-  'envelope': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-url-9',
-    'custom-url-10',
-    'custom-field-11',
-    'custom-field-12'
-  ],
-
-  // Puzzle template
-  'puzzle': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6'
-  ],
-
-  // Evermore template
-  'evermore': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-field-2',
-    'custom-image-3',
-    'custom-field-4',
-    'custom-image-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-field-9',
-    'custom-image-10',
-    'custom-field-11',
-    'custom-time-12',
-    'custom-fieldarea-13',
-    'custom-image-14',
-    'custom-image-15',
-    'custom-image-16',
-    'custom-image-17',
-    'custom-field-18',
-    'custom-fieldarea-19',
-    'custom-url-20'
-  ],
-
-  // Blossom template
-  'blossom': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-image-1',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-field-7',
-    'custom-field-8',
-    'custom-field-9',
-    'custom-time-10',
-    'custom-field-11',
-    'custom-time-12',
-    'custom-field-13',
-    'custom-field-14'
-  ],
-
-  // Horizon template
-  'horizon': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-field-2',
-    'custom-field-3',
-    'custom-time-4',
-    'custom-field-5',
-    'custom-time-6',
-    'custom-field-7',
-    'custom-image-8',
-    'custom-field-9',
-    'custom-fieldarea-10',
-    'custom-image-11',
-    'custom-fieldarea-12',
-    'custom-url-13',
-    'custom-field-14',
-    'custom-image-15',
-    'custom-image-16',
-    'custom-image-17'
-  ],
-
-  // Timeless template
-  'timeless': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-fieldarea-2',
-    'custom-image-3',
-    'custom-image-4',
-    'custom-image-5',
-    'custom-image-6',
-    'custom-image-7',
-    'custom-field-8',
-    'custom-field-9',
-    'custom-field-10',
-    'custom-field-11',
-    'custom-field-12',
-    'custom-fieldarea-13',
-    'custom-image-14',
-    'custom-image-15',
-    'custom-image-16',
-    'custom-image-17',
-    'custom-field-18',
-    'custom-fieldarea-19',
-    'custom-url-20'
-  ],
-
-  // Confetti template
-  'confetti': [
-    'wedding-date-he',
-    'wedding-date-en',
-    'wedding-location',
-    'wedding-location-latitude',
-    'wedding-location-longitude',
-    'wedding-location-name',
-    'groom-name',
-    'bride-name',    
-    'whatsapp-title',
-    'whatsapp-description',
-    'color-palette',
-    'custom-image-24',
-    'custom-field-1',
-    'custom-image-2',
-    'custom-field-3',
-    'custom-field-4',
-    'custom-field-5',
-    'custom-field-6',
-    'custom-time-7',
-    'custom-field-8',
-    'custom-time-9',
-    'custom-image-10',
-    'custom-image-11',
-    'custom-image-12',
-    'custom-image-13',
-    'custom-image-14',
-    'custom-image-15',
-    'custom-field-16',
-    'custom-field-17',
-    'custom-field-18'
-  ]
-};
-
-// Function to get template name from URL
-function getTemplateName() {
-  return window.location.pathname
-    .replace(/\/$/, "")
-    .split("/")
-    .pop();
-}
-
-// Function to get fields for current template
-function getTemplateFields() {
-  const templateName = getTemplateName();
-  return TEMPLATE_FIELD_MAP[templateName] || [];
-}
+// Global variable to store original form data
+let originalFormData = {};
 
 // Function to collect form data based on template field mapping
 function collectTemplateFormData(form) {
-  //const templateFields = getTemplateFields();
   const templateData = {};
   
-  // First, let's get all form data like before to capture UploadCare values
   const formData = new FormData(form);
 
-  //temp - delete this
   for (const [key, value] of formData.entries()) {
-    // if (value !== undefined) { -- also fpr when update is ready
     if (value) {
       templateData[key] = value;
     }
   }
 
-// this is the real solution
-  //const allFormData = {};
-  // for (const [key, value] of formData.entries()) {
-  //   allFormData[key] = value;
-  // }
-  
-  // templateFields.forEach(fieldName => {
-  //   let value = null;
-    
-  //   // First try to get from FormData (this captures UploadCare string values)
-  //   if (allFormData[fieldName]) {
-  //     value = allFormData[fieldName];
-  //   } else {
-  //     // Fallback to direct element query
-  //     const element = form.querySelector(`[name="${fieldName}"]`);
-  //     if (element) {
-  //       value = element.value;
-        
-  //       // Special handling for UploadCare image fields if still empty
-  //       if ((fieldName.includes('image') || fieldName.includes('custom-image')) && !value) {
-  //         const uploadCareProvider = form.querySelector(`uc-upload-ctx-provider[ctx-name="${fieldName}"]`);
-  //         if (uploadCareProvider) {
-  //           // Try to get the UploadCare URL from the provider
-  //           const uploadCareData = uploadCareProvider.uploadCollection?.files;
-  //           if (uploadCareData && uploadCareData.length > 0) {
-  //             value = uploadCareData[0].cdnUrl || uploadCareData[0].originalUrl || value;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-    
-  //   // Send null for empty strings, otherwise send the value
-  //   templateData[fieldName] = value === "" ? null : value;
-  // });
+  // Compare with original data and add null for missing fields
+  for (const [key, value] of Object.entries(originalFormData)) {
+    if (!(key in templateData)) {
+      templateData[key] = null;
+    }
+  }
   
   return templateData;
 }
@@ -547,6 +224,8 @@ supaClient.functions
       const elements = document.getElementsByName(key);
       if (key.includes("image")) {
         setImageFields(key, value?.url);
+        // Store original image data
+        originalFormData[key] = value?.url;
       }
       if (
         elements &&
@@ -556,6 +235,8 @@ supaClient.functions
       ) {
         elements[0].value = value;
         elements[0].dispatchEvent(new Event("input", { bubbles: true }));
+        // Store original field data
+        originalFormData[key] = value;
       } else if (key === "slug") {
         const baseUrl = "www.weddji.co.il/";
         $app.components.page_data.store.weddingForm.slug = baseUrl + value;
@@ -564,12 +245,18 @@ supaClient.functions
         if (el) {
           el.textContent = baseUrl + value;
         }
+        // Store original slug data
+        originalFormData[key] = value;
       } else if (key === "custom-image-24") {
         updateWhatsAppImage(value.url);
+        // Store original image data
+        originalFormData[key] = value?.url;
       } else if (key === "wedding-date-en") {
         const date = extractDateIfValid(value);
         elements[0].value = date;
         elements[0].dispatchEvent(new Event("input", { bubbles: true }));
+        // Store original date data
+        originalFormData[key] = value;
       }
     }
   });
@@ -589,9 +276,14 @@ supaClient.functions
       const elements = document.getElementsByName(key);
       if (elements && elements.length) {
         elements[0].value = value;
+        // Store original template data
+        originalFormData[key] = value || null;
       }
     }
     updateIframeTemplate();
+    
+    // Capture initial form state after template data is loaded
+    setTimeout(captureInitialFormState, 500);
   });
 
 function extractDateIfValid(input) {
@@ -992,31 +684,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-//function handleOverlayClick(event) {
-//const popupIds = ['#questions-popup', '#signup-popup', '#payment-popup'];
-
-// popupIds.forEach(id => {
-//const popup = document.getElementById(id);
-//if (popup && getComputedStyle(popup).display === 'flex') {
-// popup.style.display = 'none';
-//}
-//});
-//}
-
-// Add listener to all elements with class "modal-background-overlay"
-//document.querySelectorAll('.modal-background-overlay').forEach(el => {
-//el.addEventListener('click', handleOverlayClick);
-//});
-//<!-- END OF Show upload image success icon -->
-
-//<!-- Display popup when user tries exiting -->
-
-//   window.addEventListener('beforeunload', function(event) {
-//     // Display the standard confirmation dialog
-//     event.preventDefault();
-//     event.returnValue = ''; // This triggers the standard confirmation dialog
-//   });
-// Capture the initial state when the page loads
-//window.addEventListener('load', captureInitialState);
-
-//<!-- END OF Display popup when user tries exiting -->
