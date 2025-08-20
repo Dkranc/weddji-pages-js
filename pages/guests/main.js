@@ -153,7 +153,7 @@ async function rsvp(e) {
       lastName: store.fields.lastName,
       phoneNumber: store.fields.phoneNumber,
       guestCount: store.fields.guestCount,
-      status: store.fields.status,
+      status: store.fields.status != null && store.fields.status != "" ? store.fields.status : 3, //uploaded successfuly
     };
 
     const submitBtn = rsvpFormBlock.querySelector("[type='submit']");
