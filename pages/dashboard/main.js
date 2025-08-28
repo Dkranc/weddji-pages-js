@@ -48,6 +48,10 @@ supaClient.auth.getUser().then(({ data, error }) => {
 
       if (popup && !slugSelected) {
         popup.style.display = "flex";
+        // Add payment=success to URL when popup is shown
+        const currentUrl = new URL(window.location);
+        currentUrl.searchParams.set('payment', 'success');
+        window.history.replaceState({}, document.title, currentUrl.toString());
       } else {
         popup.style.display = "none";
         window.history.replaceState(
