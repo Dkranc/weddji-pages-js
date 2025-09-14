@@ -241,15 +241,7 @@ async function getGuestWishes() {
     if (error) throw error;
 
     if (data && data.length > 0) {
-      $app.components.wishes_list.store.wishes = data;
-      const images = document.querySelectorAll(".wish-image");
-      images.forEach((image) => {
-        const wishId = image?.textContent.trim();
-        const wishData = data.find(wish => String(wish.id) === String(wishId));
-        if (wishData && wishData.image) {
-          image.src = wishData.image;
-        }
-      });
+      $app.components.wishes_list.store.wishes = data.map(w => ({...w, image: w.image || "https://cdn.prod.website-files.com/64ca7e9ae31fc69077c01aa4/686689187f16130f80da46c9_beautiful-bride-groom-having-their-wedding-with-guests-beach.jpg"}));
     }
   } catch (err) {
     console.error("Error fetching guest wishes:", err.message);
